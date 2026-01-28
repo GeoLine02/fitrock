@@ -6,7 +6,8 @@ export default function Header() {
   return (
     <header
       className="
-      
+      bg-[url('/Fitrock-assets/imgs/texture.jfif')]
+      bg-cover
       w-full
       h-[70px]
       flex
@@ -14,11 +15,11 @@ export default function Header() {
       justify-between
       px-12
       text-white
-      bg-[url('/textures/stone-bg.jpg')]
+    
       bg-center
       bg-cover
       shadow-md
-      bg-amber-600
+     
     "
     >
       {/* Logo */}

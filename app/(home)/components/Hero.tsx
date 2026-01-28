@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import HeroBanner from "@/public/Fitrock assets/imgs/baneri2.png";
+import HeroBanner from "@/public/Fitrock-assets/imgs/baneri2.png";
 import Button from "@/components/Button";
 export default function Hero() {
   return (
