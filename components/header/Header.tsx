@@ -1,0 +1,49 @@
+import React from "react";
+import Logo from "../Logo";
+import Button from "../Button";
+
+export default function Header() {
+  return (
+    <header
+      className="
+      
+      w-full
+      h-[70px]
+      flex
+      items-center
+      justify-between
+      px-12
+      text-white
+      bg-[url('/textures/stone-bg.jpg')]
+      bg-center
+      bg-cover
+      shadow-md
+      bg-amber-600
+    "
+    >
+      {/* Logo */}
+      <Logo />
+
+      {/* Navigation */}
+      <nav className="flex gap-10 text-sm uppercase tracking-wide font-medium">
+        <span className="cursor-pointer hover:text-orange-400 transition">
+          Home
+        </span>
+        <span className="cursor-pointer hover:text-orange-400 transition">
+          Products
+        </span>
+        <span className="cursor-pointer hover:text-orange-400 transition">
+          Company
+        </span>
+        <span className="cursor-pointer hover:text-orange-400 transition">
+          Blog
+        </span>
+        <span className="cursor-pointer hover:text-orange-400 transition">
+          Contacts
+        </span>
+      </nav>
+
+      <Button label="Sign in" width="" />
+    </header>
+  );
+}
