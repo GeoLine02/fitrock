@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "../Logo";
 import Button from "../Button";
-import link from "@/app/contact/sign";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -45,7 +45,9 @@ export default function Header() {
         </span>
       </nav>
 
-      <Button label="Sign in" width="" />
+      <Link href={"/sign-in"}>
+        <Button label="Sign in" width="" />
+      </Link>
     </header>
   );
 }

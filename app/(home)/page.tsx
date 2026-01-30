@@ -6,7 +6,9 @@ import PopularProducts from "./components/top-sale/PopularProducts";
 export default function Home() {
   return (
     <div>
-      <Header /> <Hero /> <PopularProducts />
+      <Header />
+      <Hero />
+      <PopularProducts />
     </div>
   );
 }
