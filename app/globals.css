@@ -3,3 +3,12 @@
 .container {
   @apply max-w-[1440px];
 }
+
+body {
+  /* @apply container bg-cover min-h-screen text-white flex flex-col items-center; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+}

@@ -4,7 +4,7 @@ import React from "react";
 export default function PopularProducts() {
   return (
     <div>
-      <h1 className="flex justify-center text-4xl font-medium mb-5">
+      <h1 className="flex justify-center text-4xl font-medium mb-5 text-white">
         Popular Products
       </h1>
       <div className="flex gap-5 justify-center">

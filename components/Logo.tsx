@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Logo() {
-  return <div className="text-4xl font-bold">FitRock</div>;
+  return <div className="text-4xl font-bold">Fitrock</div>;
 }
