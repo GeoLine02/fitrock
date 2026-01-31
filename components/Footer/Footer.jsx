@@ -6,48 +6,68 @@ import {
   Phone,
   Twitter,
 } from "lucide-react";
-import React from "react";
 
 export default function Footer() {
   return (
-    <div className="flex justify-between mt-10 p-10 bg-gray-50 rounded-2xl">
-      <div className=" flex flex-col gap-2 ">
-        <h1 className="text-4xl">Fitrock</h1>
-        <p>
-          premium quality dumbbells <br /> for fitness enthusiasts
-        </p>
-        <div className="flex gap-5 mt-2">
-          <Facebook />
-          <Instagram />
-          <Twitter />
+    <footer className="mt-10 bg-gray-50 rounded-2xl p-6 sm:p-10">
+      <div
+        className="grid gap-10 
+        grid-cols-1 
+        sm:grid-cols-2 
+        lg:grid-cols-4"
+      >
+        {/* Brand */}
+        <div className="flex flex-col gap-3">
+          <h1 className="text-3xl font-bold">Fitrock</h1>
+          <p className="text-gray-600">
+            Premium quality dumbbells <br />
+            for fitness enthusiasts
+          </p>
+          <div className="flex gap-4 mt-2">
+            <Facebook className="cursor-pointer hover:text-black" />
+            <Instagram className="cursor-pointer hover:text-black" />
+            <Twitter className="cursor-pointer hover:text-black" />
+          </div>
+        </div>
+
+        {/* Quick Links */}
+        <div className="flex flex-col gap-3">
+          <h1 className="font-semibold text-lg">Quick Links</h1>
+          <ul className="flex flex-col gap-2 text-gray-600">
+            <li className="hover:text-black cursor-pointer">Home</li>
+            <li className="hover:text-black cursor-pointer">Shop</li>
+            <li className="hover:text-black cursor-pointer">Contact</li>
+          </ul>
+        </div>
+
+        {/* Customer Service */}
+        <div className="flex flex-col gap-3">
+          <h1 className="font-semibold text-lg">Customer Service</h1>
+          <ul className="flex flex-col gap-2 text-gray-600">
+            <li className="hover:text-black cursor-pointer">FAQ</li>
+            <li className="hover:text-black cursor-pointer">
+              Shipping & Returns
+            </li>
+            <li className="hover:text-black cursor-pointer">Privacy Policy</li>
+          </ul>
+        </div>
+
+        {/* Contact */}
+        <div className="flex flex-col gap-3">
+          <h1 className="font-semibold text-lg">Contact Us</h1>
+          <ul className="flex flex-col gap-3 text-gray-600">
+            <li className="flex items-center gap-2">
+              <Mail size={18} /> info@dumbbells.com
+            </li>
+            <li className="flex items-center gap-2">
+              <Phone size={18} /> +995 577 156 618
+            </li>
+            <li className="flex items-center gap-2">
+              <MapPin size={18} /> N.L Prochis N6
+            </li>
+          </ul>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <h1>Quick Links</h1>
-        <li>Home</li>
-        <li>Shop</li>
-        <li>Contact</li>
-      </div>
-      <div className="flex flex-col gap-2">
-        <h1>Costumer Service</h1>
-        <li>FAQ</li>
-        <li>Shopping & Returns</li>
-        <li>Privacy Police</li>
-      </div>
-      <div className="flex flex-col gap-2">
-        <h1>Contact Us</h1>
-        <li className="flex gap-2">
-          <Mail />
-          info@dombbells.com
-        </li>
-        <li className="flex gap-2">
-          <Phone />
-          (995)+577156618
-        </li>
-        <li className="flex gap-2">
-          <MapPin /> N.L Prochis N6
-        </li>
-      </div>
-    </div>
+    </footer>
   );
 }

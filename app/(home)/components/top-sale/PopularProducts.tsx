@@ -9,24 +9,20 @@ import "swiper/css/navigation";
 
 export default function PopularProducts() {
   return (
-    <div>
+    <div className="px-4 xl:px-0">
       <h1 className="flex justify-center text-4xl font-medium my-5">
         Popular Products
       </h1>
       <Swiper
         className="conatiner"
-        spaceBetween={16}
+        spaceBetween={10}
         slidesPerView={"auto"}
         navigation
         modules={[Navigation]}
       >
         {products.map((product, index) => (
           <SwiperSlide className="w-fit!" key={index}>
-            <ProductCard
-              label={product.label}
-              description={product.description}
-              price={product.price}
-            />
+            <ProductCard label={product.label} price={product.price} />
           </SwiperSlide>
         ))}
       </Swiper>
