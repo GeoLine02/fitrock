@@ -9,7 +9,9 @@ export default function Header() {
   return (
     <header className=" w-full  py-4 flex items-center justify-between px-12 text-black shadow-md">
       {/* Logo */}
-      <Logo />
+      <Link href={"/"}>
+        <Logo />
+      </Link>
 
       {/* Navigation */}
       <nav className="flex items-center gap-10 text-sm uppercase tracking-wide font-medium">
@@ -22,8 +24,10 @@ export default function Header() {
         <span className="cursor-pointer hover:text-gray-400 transition">
           Contact
         </span>
-        <Search />
-        <ShoppingCart />
+        <Search className="hover:text-gray-400 transition cursor-pointer" />
+        <Link href={"/cart"}>
+          <ShoppingCart className="hover:text-gray-400 transition" />
+        </Link>
         <Link href={"/sign-in"}>
           <Button bgColor="black">Sign In</Button>
         </Link>
