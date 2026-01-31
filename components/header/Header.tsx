@@ -1,33 +1,60 @@
-import React from "react";
+"use client";
+
 import Logo from "../Logo";
 import Button from "../Button";
 
-import { Search, ShoppingCart } from "lucide-react";
+import { Menu, Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import SideMenu from "../SideMenu";
 
 export default function Header() {
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+
+  const handleToggleSideMenu = () => {
+    setIsSideBarOpen(!isSideBarOpen);
+  };
+
   return (
-    <header className=" w-full  py-4 flex items-center justify-between px-12 text-black shadow-md">
+    <header className=" w-full py-2 lg:py-4 flex items-center justify-between px-4 lg:px-12 text-black shadow-md">
       {/* Logo */}
       <Logo />
 
       {/* Navigation */}
-      <nav className="flex items-center gap-10 text-sm uppercase tracking-wide font-medium">
-        <span className="cursor-pointer hover:text-gray-400 transition">
+
+      <span onClick={handleToggleSideMenu} className="md:hidden">
+        <Menu />
+      </span>
+
+      <nav className="items-center gap-10 text-sm uppercase tracking-wide font-medium hidden md:flex">
+        <Link
+          href={"/"}
+          className="cursor-pointer hover:text-gray-400 transition"
+        >
           Home
-        </span>
-        <span className="cursor-pointer hover:text-gray-400 transition">
-          Shop
-        </span>
-        <span className="cursor-pointer hover:text-gray-400 transition">
+        </Link>
+        <Link
+          href={"/contact"}
+          className="cursor-pointer hover:text-gray-400 transition"
+        >
           Contact
-        </span>
+        </Link>
+        <Link
+          href={"/about-us"}
+          className="cursor-pointer hover:text-gray-400 transition"
+        >
+          About Us
+        </Link>
         <Search />
         <ShoppingCart />
         <Link href={"/sign-in"}>
           <Button bgColor="black">Sign In</Button>
         </Link>
       </nav>
+      <SideMenu
+        handleToggleSideMenu={handleToggleSideMenu}
+        isSideBarOpen={isSideBarOpen}
+      />
     </header>
   );
 }
