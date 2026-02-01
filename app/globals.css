@@ -20,3 +20,8 @@ body {
 .swiper-button-prev {
   color: black !important;
 }
+
+@theme {
+  /* colors */
+  --color-customOrange: #e47c48;
+}

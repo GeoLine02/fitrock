@@ -18,7 +18,9 @@ export default function Header() {
   return (
     <header className=" w-full py-2 lg:py-4 flex items-center justify-between px-4 lg:px-12 text-black shadow-md">
       {/* Logo */}
-      <Logo />
+      <Link href={"/"}>
+        <Logo />
+      </Link>
 
       {/* Navigation */}
 
@@ -45,8 +47,10 @@ export default function Header() {
         >
           About Us
         </Link>
-        <Search />
-        <ShoppingCart />
+        <Search className="cursor-pointer hover:text-gray-400 transition" />
+        <Link href={"/cart"}>
+          <ShoppingCart className="cursor-pointer hover:text-gray-400 transition" />
+        </Link>
         <Link href={"/sign-in"}>
           <Button bgColor="black">Sign In</Button>
         </Link>
