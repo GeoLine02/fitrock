@@ -1,11 +1,10 @@
+import { Trash } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
-import React from "react";
 
 interface CartItemProps {
   img: StaticImageData;
   label: string;
   price: number;
-  totalAmount: number;
   quantity: number;
 }
 
@@ -14,42 +13,53 @@ export default function CartItem({
   label,
   price,
   quantity,
-  totalAmount,
 }: CartItemProps) {
+  const total = price * quantity;
+
   return (
-    <div className="flex justify-center ">
-      <div className="grid grid-cols-12 items-center px-4 py-4 bg-white border-b border-gray-100 w-300">
-        {/* Product image + label */}
-        <div className="col-span-7 flex items-center gap-3">
-          <Image className="w-50 h-50 object-contain" alt={label} src={img} />
-          <span className="text-sm text-gray-800">{label}</span>
+    <div className="border-b border-gray-100 p-4 md:p-0">
+      <div className="grid grid-cols-1 md:grid-cols-12 md:items-center md:px-6 md:py-5 gap-4">
+        {/* Product (checkbox + image + label) */}
+        <div className="md:col-span-5 flex items-center gap-3">
+          <input type="checkbox" className="w-4 h-4 accent-customOrange" />
+
+          <Image src={img} alt={label} className="w-16 h-16 object-contain" />
+
+          <span className="text-sm font-medium text-gray-800">{label}</span>
         </div>
 
         {/* Price */}
-        <div className="col-span-1 text-sm text-gray-800 text-right">
-          ${price.toFixed(2)}
+        <div className="md:col-span-2 md:text-right flex justify-between md:block text-sm">
+          <span className="md:hidden text-gray-500">Price</span>
+          <span className="text-gray-800 font-medium">${price.toFixed(2)}</span>
         </div>
 
-        {/* Quantity stepper */}
-        <div className="col-span-3 flex items-center justify-center gap-2">
-          <button className="w-6 h-6 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
-            −
-          </button>
-          <span className="text-sm w-4 text-center text-gray-800">
-            {quantity}
-          </span>
-          <button className="w-6 h-6 flex items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
-            +
-          </button>
+        {/* Quantity */}
+        <div className="md:col-span-3 flex justify-between md:justify-center items-center">
+          <span className="md:hidden text-sm text-gray-500">Quantity</span>
+          <div className="flex items-center gap-1">
+            <button className="w-8 h-8 rounded-md bg-customOrange text-white flex items-center justify-center">
+              −
+            </button>
+            <span className="w-6 text-center">{quantity}</span>
+            <button className="w-8 h-8 rounded-md bg-customOrange text-white flex items-center justify-center">
+              +
+            </button>
+          </div>
         </div>
 
-        {/* Total + delete */}
-        <div className="col-span-1 flex items-center justify-end gap-3">
-          <span className="text-sm text-gray-800">
-            ${totalAmount.toFixed(2)}
+        {/* Total */}
+        <div className="md:col-span-1 flex justify-between md:justify-end items-center">
+          <span className="md:hidden text-sm text-gray-500">Total Price</span>
+          <span className="text-sm font-medium text-gray-900">
+            ${total.toFixed(2)}
           </span>
-          <button className="text-gray-400 hover:text-red-500 transition text-base">
-            🗑️
+        </div>
+
+        {/* Delete */}
+        <div className="md:col-span-1 flex justify-end">
+          <button className="text-gray-400 hover:text-red-500 transition">
+            <Trash size={22} />
           </button>
         </div>
       </div>

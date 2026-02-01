@@ -1,36 +1,38 @@
-import React from "react";
 import CartItem from "./CartItem";
 import CardPicture from "@/public/Fitrock-assets/imgs/dumbbells.png";
-import CartTotal from "./CartTotal";
+
 export default function CartTable() {
   return (
-    <div>
-      <div className="flex justify-center py-2">
-        <div className="w-300 border border-gray-200  ">
-          <div className="grid grid-cols-12 bg-gray-50 border-b border-gray-200 px-4 py-3">
-            <div className="col-span-2 text-sm font-medium text-gray-800">
-              Product
-            </div>
-            <div className="col-span-6 text-sm font-medium text-gray-800 text-right">
-              Price
-            </div>
-            <div className="col-span-2 text-sm font-medium text-gray-800 text-right">
-              Quantity
-            </div>
-            <div className="col-span-2 text-sm font-medium text-gray-800 text-right">
-              Total
-            </div>
-          </div>
+    <div className="flex justify-center mt-2 w-full">
+      <div className="w-full border border-gray-200 rounded-xl overflow-hidden">
+        {/* Header (desktop only) */}
+        <div className="hidden md:grid grid-cols-12 bg-gray-50 px-6 py-4 border-b border-gray-200 text-sm font-medium text-gray-700">
+          <div className="col-span-5">Product</div>
+          <div className="col-span-2 text-right">Price</div>
+          <div className="col-span-3 text-center">Quantity</div>
+          <div className="col-span-1 text-right">Total</div>
+          <div className="col-span-1 text-center" />
         </div>
+
+        <CartItem
+          img={CardPicture}
+          label="15 LB Hex Dumbbells"
+          price={59.99}
+          quantity={1}
+        />
+        <CartItem
+          img={CardPicture}
+          label="40 LB Adjustable Dumbbells"
+          price={139.99}
+          quantity={2}
+        />
+        <CartItem
+          img={CardPicture}
+          label="25 LB Dumbbells"
+          price={89.99}
+          quantity={1}
+        />
       </div>
-      <CartItem
-        img={CardPicture}
-        label="Jorikas Mamadzagli Giri"
-        price={1}
-        quantity={1}
-        totalAmount={1}
-      />
-      <CartTotal price={2} />
     </div>
   );
 }

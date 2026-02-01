@@ -47,8 +47,10 @@ export default function Header() {
         >
           About Us
         </Link>
-        <Search />
-        <ShoppingCart />
+        <Search className="cursor-pointer hover:text-gray-400 transition" />
+        <Link href={"/cart"}>
+          <ShoppingCart className="cursor-pointer hover:text-gray-400 transition" />
+        </Link>
         <Link href={"/sign-in"}>
           <Button bgColor="black">Sign In</Button>
         </Link>
