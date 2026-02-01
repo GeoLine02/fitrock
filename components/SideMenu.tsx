@@ -44,19 +44,35 @@ export default function SideMenu({
       </div>
 
       <div className="flex flex-col gap-6 text-xl mt-4">
-        <Link className={linkClasses("/")} href="/">
+        <Link
+          onClick={handleToggleSideMenu}
+          className={linkClasses("/")}
+          href="/"
+        >
           Home
         </Link>
 
-        <Link className={linkClasses("/contact")} href="/contact">
+        <Link
+          onClick={handleToggleSideMenu}
+          className={linkClasses("/contact")}
+          href="/contact"
+        >
           Contact
         </Link>
 
-        <Link className={linkClasses("/about-us")} href="/about-us">
+        <Link
+          onClick={handleToggleSideMenu}
+          className={linkClasses("/about-us")}
+          href="/about-us"
+        >
           About Us
         </Link>
 
-        <Link className={linkClasses("/sign-in")} href="/sign-in">
+        <Link
+          onClick={handleToggleSideMenu}
+          className={linkClasses("/sign-in")}
+          href="/sign-in"
+        >
           Sign In
         </Link>
       </div>
