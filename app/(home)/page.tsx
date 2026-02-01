@@ -1,5 +1,4 @@
 import Header from "@/components/header/Header";
-import React from "react";
 import Hero from "./components/Hero";
 import PopularProducts from "./components/top-sale/PopularProducts";
 import Footer from "@/components/Footer/Footer";
