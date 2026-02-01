@@ -1,6 +1,7 @@
 import React from "react";
 import CartItem from "./CartItem";
-
+import CardPicture from "@/public/Fitrock-assets/imgs/dumbbells.png";
+import CartTotal from "./CartTotal";
 export default function CartTable() {
   return (
     <div>
@@ -22,7 +23,14 @@ export default function CartTable() {
           </div>
         </div>
       </div>
-      <CartItem img={} label="" price={} quantity={} totalAmount={} />
+      <CartItem
+        img={CardPicture}
+        label="Jorikas Mamadzagli Giri"
+        price={1}
+        quantity={1}
+        totalAmount={1}
+      />
+      <CartTotal price={2} />
     </div>
   );
 }

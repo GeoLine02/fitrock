@@ -21,7 +21,7 @@ export default function CartItem({
       <div className="grid grid-cols-12 items-center px-4 py-4 bg-white border-b border-gray-100 w-300">
         {/* Product image + label */}
         <div className="col-span-7 flex items-center gap-3">
-          <Image className="w-16 h-16 object-contain" alt={label} src={img} />
+          <Image className="w-50 h-50 object-contain" alt={label} src={img} />
           <span className="text-sm text-gray-800">{label}</span>
         </div>
 
