@@ -1,5 +1,4 @@
 import React from "react";
-import ProductCards from "./components/ProductCard";
 import ProductCard from "@/components/ProductCard";
 
 export default function ProductsPage() {
