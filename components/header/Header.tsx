@@ -52,6 +52,8 @@ export default function Header() {
         >
           About Us
         </Link>
+      </nav>
+      <div className="flex gap-6 items-center">
         <Search className="cursor-pointer hover:text-gray-400 transition" />
         <Link href={"/cart"}>
           <ShoppingCart className="cursor-pointer hover:text-gray-400 transition" />
@@ -59,7 +61,7 @@ export default function Header() {
         <Link href={"/sign-in"}>
           <Button bgColor="black">Sign In</Button>
         </Link>
-      </nav>
+      </div>
       <SideMenu
         handleToggleSideMenu={handleToggleSideMenu}
         isSideBarOpen={isSideBarOpen}
