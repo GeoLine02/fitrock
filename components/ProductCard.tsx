@@ -6,6 +6,7 @@ import { ShoppingCart } from "lucide-react";
 interface ProductCardProps {
   label: string;
   price: number;
+  id: number;
 }
 
 export default function ProductCard({ label, price }: ProductCardProps) {

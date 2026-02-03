@@ -1,5 +1,6 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import React from "react";
+import CardImage from "@/public/Fitrock-assets/imgs/dumbbells.png";
 
 export default function OurDetals() {
   return (
