@@ -6,26 +6,32 @@ import { ShoppingCart } from "lucide-react";
 interface ProductCardProps {
   label: string;
   price: number;
-  id: number;
 }
 
 export default function ProductCard({ label, price }: ProductCardProps) {
   return (
-    <div className="cursor-pointer max-w-40 md:max-w-56 p-2 border-2 border-gray-300 rounded-2xl transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl bg-white">
-      <Image
-        src={ProductImage}
-        alt=""
-        className="border-b rounded-md border-gray-300"
-      />
-      <h1 className="text-lg md:text-xl font-medium line-clamp-1 mt-2 ">
-        {label}
-      </h1>
-      <h2 className="text-base md:text-lg font-bold">{price}GEL</h2>
+    <div className="cursor-pointer w-40 h-60 md:w-55 md:h-70 p-3 border border-gray-300 rounded-2xl bg-white flex flex-col hover:shadow-xl transition">
+      {/* Image – fixed height */}
+      <div className="relative w-full h-37.5 mb-3">
+        <Image src={ProductImage} alt={label} fill className="object-contain" />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1">
+        <h1 className="text-sm font-medium line-clamp-2 leading-snug">
+          {label}
+        </h1>
+
+        <p className="mt-1 text-base font-bold">{price} GEL</p>
+      </div>
+
+      {/* Button pinned */}
       <Button
         bgColor="black"
-        classname="flex gap-2 md:gap-5 w-full justify-center font-medium mt-2 text-sm md:text-base whitespace-nowrap"
+        classname="mt-3 flex items-center justify-center gap-2 w-full text-sm py-2"
       >
-        add to cart <ShoppingCart className="w-4" />
+        Add to cart
+        <ShoppingCart className="w-4 h-4" />
       </Button>
     </div>
   );
