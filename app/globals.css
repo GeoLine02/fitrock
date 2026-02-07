@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-.container {
-  @apply max-w-[1600px];
-}
-
 body {
   /* @apply container bg-cover min-h-screen text-white flex flex-col items-center; */
   min-height: 100vh;
@@ -12,7 +8,6 @@ body {
   /* align-items: center; */
   color: black;
   width: 100%;
-  max-width: 1600px;
   margin: 0 auto;
 }
 
