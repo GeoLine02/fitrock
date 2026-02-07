@@ -13,20 +13,23 @@ export default function ProductCard({ label, price }: ProductCardProps) {
   return (
     <div
       className="
-      border-2 rounded-lg border-gray-200 p-2 lg:p-4 space-y-1 bg-white flex flex-col cursor-pointer duration-200 w-full max-w-[300px]
+      border-2 rounded-lg border-gray-200 p-2 lg:p-4 space-y-1 bg-white flex flex-col cursor-pointer duration-200 w-full max-w-75
       hover:shadow-xl
       transition-shadow
       shrink-0
     "
     >
       {/* Image */}
-      <div className="relative w-full h-[80px] sm:h-[90px] md:h-[100px] lg:h-[110px] aspect-square mb-3">
+      <div className="relative w-full aspect-square mb-3">
         <Image src={ProductImage} alt={label} fill className="object-contain" />
       </div>
 
       {/* Content */}
       <div className="flex-1">
-        <h1 className="text-sm sm:text-base font-medium line-clamp-2 leading-snug">
+        <h1
+          title={label}
+          className="text-sm sm:text-base font-medium truncate text-ellipsis leading-snug max-w-[9em] line-clamp-1"
+        >
           {label}
         </h1>
 
