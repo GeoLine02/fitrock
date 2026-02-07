@@ -24,7 +24,7 @@ interface DropDownProps {
 }
 
 const DropDown: React.FC<DropDownProps> & {
-  Trigger: React.FC<{ children: ReactNode }>;
+  Trigger: React.FC<{ children: ReactNode; className?: string }>;
   Menu: React.FC<{ children: ReactNode }>;
   Item: React.FC<{ children: ReactNode; onClick?: () => void }>;
 } = ({ children }) => {
@@ -35,7 +35,7 @@ const DropDown: React.FC<DropDownProps> & {
 
   return (
     <DropdownContext.Provider value={{ isOpen, toggle, close }}>
-      <div className="relative inline-block">{children}</div>
+      <div className="relative w-full inline-block">{children}</div>
     </DropdownContext.Provider>
   );
 };
@@ -50,7 +50,7 @@ const Trigger: React.FC<{ children: ReactNode; className?: string }> = ({
   return (
     <button
       onClick={toggle}
-      className={`${className} px-4 py-2 bg-gray-700 text-white rounded`}
+      className={`px-4 py-2 bg-gray-700 text-white rounded ${className}`}
     >
       {children}
     </button>
