@@ -28,17 +28,6 @@ export default function Header() {
         <Logo />
       </Link>
 
-      {/* Navigation */}
-      <div className="flex gap-4 items-center md:hidden">
-        <Search className="cursor-pointer hover:text-gray-400 transition" />
-        <Link href={"/cart"}>
-          <ShoppingCart className="cursor-pointer hover:text-gray-400 transition" />
-        </Link>
-        <span onClick={handleToggleSideMenu}>
-          <Menu />
-        </span>
-      </div>
-
       <nav className="items-center gap-10 text-sm uppercase tracking-wide font-medium hidden md:flex">
         <Link
           href={"/"}
@@ -64,7 +53,10 @@ export default function Header() {
         <Link href={"/cart"}>
           <ShoppingCart className="cursor-pointer hover:text-gray-400 transition" />
         </Link>
-        <Link href={"/sign-in"}>
+        <span className="lg:hidden" onClick={handleToggleSideMenu}>
+          <Menu />
+        </span>
+        <Link className="hidden lg:block" href={"/sign-in"}>
           <Button bgColor="black">Sign In</Button>
         </Link>
       </div>
