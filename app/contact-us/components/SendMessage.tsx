@@ -3,7 +3,7 @@ import React from "react";
 
 export default function SendMessage() {
   return (
-    <div className="flex-1 bg-white p-6 rounded-lg shadow-sm">
+    <div className="w-full bg-white p-6 rounded-lg shadow-sm h-full">
       <h1 className="text-xl font-semibold mb-4">Send us a message</h1>
 
       <input
