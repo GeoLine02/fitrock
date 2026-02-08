@@ -42,6 +42,12 @@ export default function Header() {
           Prouducts
         </Link>
         <Link
+          href={"/contact-us"}
+          className="cursor-pointer hover:text-gray-400 transition"
+        >
+          Contact Us
+        </Link>
+        <Link
           href={"/about-us"}
           className="cursor-pointer hover:text-gray-400 transition"
         >
