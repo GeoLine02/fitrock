@@ -3,9 +3,9 @@ import CartTotal from "./components/CartTotal";
 
 export default function Cart() {
   return (
-    <div className="w-full">
+    <div className="w-full px-4 lg:px-12">
       {/* Page content */}
-      <div className="p-4">
+      <div className="mt-4">
         <h1 className="text-2xl lg:text-3xl font-bold mb-2 lg:mb-6">
           Shopping Cart
         </h1>
