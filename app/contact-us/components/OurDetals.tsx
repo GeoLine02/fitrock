@@ -1,11 +1,10 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import React from "react";
-import CardImage from "@/public/Fitrock-assets/imgs/dumbbells.png";
 
 export default function OurDetals() {
   return (
-    <div className=" h-[410px] shrink-0 flex gap-5">
-      <div className="bg-white p-5 rounded-lg shadow-sm flex flex-col gap-4">
+    <div className="w-full md:h-full xl:h-102.5 xl:shrink-0 flex gap-5">
+      <div className="bg-white p-5 rounded-lg shadow-sm flex flex-col gap-4 w-full h-full">
         <h1 className="text-2xl font-semibold">Our Details</h1>
 
         {/* Phone */}
