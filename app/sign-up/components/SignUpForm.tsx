@@ -11,6 +11,7 @@ import { signup } from "../services/signup";
 import { registerUserSchema } from "../validators";
 import { ClipLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/providers/UserProvider";
 
 type RegisterFormValues = z.infer<typeof registerUserSchema>;
 
@@ -25,6 +26,7 @@ export default function SignUpForm() {
   });
 
   const router = useRouter();
+  const { setUser } = useUser();
 
   const onSubmit = async (data: RegisterFormValues) => {
     try {
@@ -32,10 +34,11 @@ export default function SignUpForm() {
         fullName: data.full_name,
         email: data.email,
         password: data.password,
-        phoneNumber: data.phone_number || "",
+        phoneNumber: data.phone_number,
       });
 
       if (res.success) {
+        setUser(res.data.user);
         router.push("/");
       }
 
