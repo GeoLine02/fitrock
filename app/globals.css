@@ -20,3 +20,7 @@ body {
   /* colors */
   --color-customOrange: #e47c48;
 }
+
+.container {
+  max-width: 1200px;
+}
