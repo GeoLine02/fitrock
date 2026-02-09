@@ -1,11 +1,12 @@
 "use client";
 
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/popularProducts";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import { Product } from "@/types/product.type";
+import { popularProducts } from "@/data/popularProducts";
 
 export default function PopularProducts() {
   return (
@@ -26,9 +27,13 @@ export default function PopularProducts() {
         }}
         loop={true}
       >
-        {products.map((product, index) => (
-          <SwiperSlide className="w-fit!" key={index}>
-            <ProductCard label={product.label} price={product.price} />
+        {popularProducts.map((product: Product) => (
+          <SwiperSlide className="w-fit!" key={product.id}>
+            <ProductCard
+              id={product.id}
+              label={product.label}
+              price={product.price}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

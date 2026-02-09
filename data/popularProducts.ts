@@ -1,77 +1,17 @@
-export const products = [
-  {
-    label: "Jorikas Ganteli",
-    description: "jorikas ganteli aris dzalian tesli",
-    price: 1304.3,
-  },
-  {
-    label: "Labas prochidan gamozrobili ganteli",
-    description: "suniaq",
-    price: 2,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
-  {
-    label: "20kg Dumbbells",
-    description: "heavy",
-    price: 3,
-  },
+export const popularProducts = [
+  { id: 1, label: "Jorikas Ganteli", price: 1304.3 },
+  { id: 2, label: "Labas Pro Ganteli", price: 2 },
+  { id: 3, label: "Olympic 20kg Dumbbell", price: 3 },
+  { id: 4, label: "Rubber Hex Dumbbell 15kg", price: 3 },
+  { id: 5, label: "Chrome Dumbbell 12kg", price: 3 },
+  { id: 6, label: "Adjustable Dumbbell Set", price: 3 },
+  { id: 7, label: "Studio Premium Kettlebell 16kg", price: 3 },
+  { id: 8, label: "Cast Iron Kettlebell 8kg", price: 3 },
+  { id: 9, label: "EZ Curl Bar", price: 3 },
+  { id: 10, label: "Olympic Barbell 20kg", price: 3 },
+  { id: 11, label: "Weighted Vest 10kg", price: 3 },
+  { id: 12, label: "Resistance Band Pack", price: 3 },
+  { id: 13, label: "Foam Roller Pro", price: 3 },
+  { id: 14, label: "Medicine Ball 5kg", price: 3 },
+  { id: 15, label: "Pull-Up Assist Band", price: 3 },
 ];
