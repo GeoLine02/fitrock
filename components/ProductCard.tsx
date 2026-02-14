@@ -7,6 +7,7 @@ interface ProductCardProps {
   id: number;
   label: string;
   price: number;
+  discount: number;
 }
 
 export default function ProductCard({ label, price }: ProductCardProps) {

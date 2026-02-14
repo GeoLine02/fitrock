@@ -10,7 +10,10 @@ declare module "axios" {
 const AUTH_EXCLUDED_ROUTES = ["/auth/login", "/auth/refresh"];
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_API_URL
+      : "",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -80,46 +83,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
-// api.interceptors.response.use(
-//   (response: AxiosResponse) => response,
-//   async (error: AxiosError) => {
-//     const originalRequest = error.config;
-
-//     if (!originalRequest) {
-//       // No request config — nothing we can retry
-//       return Promise.reject(error);
-//     }
-
-//     if (error.response?.status === 401 && !originalRequest._retry) {
-//       if (isRefreshing) {
-//         return new Promise((resolve, reject) => {
-//           failedQueue.push({ resolve, reject, config: originalRequest });
-//         }).then(() => api(originalRequest));
-//       }
-
-//       originalRequest._retry = true;
-//       isRefreshing = true;
-
-//       try {
-//         // Call refresh token endpoint (httpOnly cookie)
-//         await api.post("/auth/refresh");
-
-//         processQueue(null);
-
-//         // TS now knows originalRequest is defined
-//         return api(originalRequest);
-//       } catch (err) {
-//         processQueue(err);
-//         console.error("Refresh token failed, redirect to login");
-//         return Promise.reject(err);
-//       } finally {
-//         isRefreshing = false;
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   },
-// );
 
 export default api;
