@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Facebook,
   Instagram,
@@ -6,8 +8,14 @@ import {
   Phone,
   Twitter,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathName = usePathname();
+
+  if (pathName.startsWith("/sign-in") || pathName.startsWith("/sign-up"))
+    return null;
+
   return (
     <footer className="mt-10 bg-gray-50 rounded-2xl p-6 sm:p-10">
       <div
