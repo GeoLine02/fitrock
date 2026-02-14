@@ -2,6 +2,7 @@ import Image from "next/image";
 import ProductImage from "@/public/Fitrock-assets/imgs/dumbbells.png";
 import Button from "./Button";
 import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
 
 interface ProductCardProps {
   id: number;
@@ -10,9 +11,10 @@ interface ProductCardProps {
   discount: number;
 }
 
-export default function ProductCard({ label, price }: ProductCardProps) {
+export default function ProductCard({ id, label, price }: ProductCardProps) {
   return (
-    <div
+    <Link
+      href={`/product/${label}-${id}`}
       className="
       border-2 rounded-lg border-gray-200 p-2 lg:p-4 space-y-1 bg-white flex flex-col cursor-pointer duration-200 w-full max-w-75
       hover:shadow-xl
@@ -45,6 +47,6 @@ export default function ProductCard({ label, price }: ProductCardProps) {
         Add to cart
         <ShoppingCart className="w-4 h-4" />
       </Button>
-    </div>
+    </Link>
   );
 }

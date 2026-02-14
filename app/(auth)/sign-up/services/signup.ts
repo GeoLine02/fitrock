@@ -1,4 +1,5 @@
 // services/auth.service.ts
+import { User } from "@/types/user.type";
 import api from "@/utils/axios";
 import axios from "axios";
 
@@ -12,12 +13,7 @@ interface SignUpPayload {
 interface SignUpResponse {
   success: boolean;
   data: {
-    user: {
-      id: number;
-      full_name: string;
-      email: string;
-      phone_number: string | null;
-    };
+    user: User;
   };
 }
 

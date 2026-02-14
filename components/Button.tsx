@@ -19,7 +19,7 @@ export default function Button({
     <button
       disabled={disabled}
       type={type}
-      className={`${classname} px-4 md:px-6 py-1 md:py-2 ${bgColor === "black" ? "bg-black" : "bg-customOrange"} cursor-pointer hover:bg-gray-700 transition-all duration-200 text-white rounded-md ${width}`}
+      className={`${classname} px-4 md:px-6 py-1 md:py-2 ${bgColor === "black" ? "bg-black" : "bg-customOrange"} font-medium cursor-pointer hover:bg-gray-700 transition-all duration-200 text-white rounded-md ${width}`}
     >
       {children}
     </button>

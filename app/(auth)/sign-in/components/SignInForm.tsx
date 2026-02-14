@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import { LoginUserInput, loginUserSchema } from "../validators";
 import { signIn } from "../services/sigin";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/providers/UserProvider";
 
 const SignInForm = () => {
   const {
@@ -19,6 +20,7 @@ const SignInForm = () => {
     resolver: zodResolver(loginUserSchema),
   });
 
+  const { setUser } = useUser();
   const router = useRouter();
 
   const onSubmit = async (data: LoginUserInput) => {
@@ -26,6 +28,7 @@ const SignInForm = () => {
       const res = await signIn(data);
 
       if (res.success) {
+        setUser(res.data.user);
         router.push("/");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
