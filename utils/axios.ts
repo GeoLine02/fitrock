@@ -11,7 +11,9 @@ const AUTH_EXCLUDED_ROUTES = ["/auth/login", "/auth/refresh"];
 
 const api = axios.create({
   baseURL:
-    process.env.NODE_ENV === "development" ? process.env.DEV_API_URL : "",
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_PUBLIC_API_URL
+      : "",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
