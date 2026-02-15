@@ -1,16 +1,22 @@
-import { product } from "@/data/product";
 import ProductPreview from "./components/ProductPreview";
 import ProductStats from "./components/ProductStats";
+import { getProductDetails } from "./services";
 
-export default async function ProductDetails() {
+interface ProductDetaislProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function ProductDetails({ params }: ProductDetaislProps) {
+  const [_productName, productId] = (await params).slug.split("-");
+  const product = await getProductDetails(Number(productId));
   return (
     <div className="flex flex-col lg:flex-row gap-4 mt-4 px-4">
       <ProductPreview />
       <ProductStats
-        description={product.description}
-        label={product.label}
-        price={product.price}
-        inStock={product.inStock}
+        description={product.product_description}
+        label={product.product_name}
+        price={product.product_price}
+        inStock={product.product_quantity}
       />
     </div>
   );

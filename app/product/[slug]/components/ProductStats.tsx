@@ -35,7 +35,9 @@ function ProductStats({
     <div className="space-y-4">
       <h1 className="text-4xl font-bold">{label}</h1>
       <h2 className="text-2xl font-semibold">Price: ${price}</h2>
-      <p className="text-gray-600 font-medium">Description: {description}</p>
+      <p className="text-gray-600 font-medium max-w-[80%] min-w-0 wrap-break-word leading-relaxed">
+        Description: {description}
+      </p>
       <p className="text-lg font-medium">In Stock: {inStock}</p>
       <div className="flex items-center space-x-4">
         <button
