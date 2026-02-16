@@ -3,8 +3,12 @@
 import Button from "@/components/Button";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
-
+import { addToCart } from "../services";
+import { useUser } from "@/providers/UserProvider";
+import { toast, ToastContainer } from "react-toastify";
+import { AxiosError } from "axios";
 interface ProductStatsProps {
+  id: number;
   label: string;
   price: number;
   description: string;
@@ -12,12 +16,14 @@ interface ProductStatsProps {
 }
 
 function ProductStats({
+  id,
   label,
   price,
   description,
   inStock,
 }: ProductStatsProps) {
   const [quantity, setQuantity] = useState(1);
+  const { user } = useUser();
 
   const increaseQuantity = () => {
     if (quantity < inStock) {
@@ -28,6 +34,29 @@ function ProductStats({
   const decreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleAddToCard = async () => {
+    try {
+      if (!user?.id) {
+        toast.warn("Your are not logged in");
+        return;
+      }
+
+      const res = await addToCart(id, user.id, quantity);
+      console.log(res);
+      toast.success(res.message);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+
+      if (
+        error.response.data &&
+        error.response.data.type === "ALREADY_IN_CART"
+      ) {
+        toast.error(error.response.data.message);
+      }
     }
   };
 
@@ -56,6 +85,7 @@ function ProductStats({
       </div>
       <div className="flex items-center gap-4">
         <Button
+          onClick={handleAddToCard}
           classname="py-2! px-6!"
           bgColor="orange"
           type="button"
@@ -67,6 +97,7 @@ function ProductStats({
           Order Now
         </Button>
       </div>
+      <ToastContainer />
     </div>
   );
 }

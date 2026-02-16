@@ -13,6 +13,7 @@ export default async function ProductDetails({ params }: ProductDetaislProps) {
     <div className="flex flex-col lg:flex-row gap-4 mt-4 px-4">
       <ProductPreview />
       <ProductStats
+        id={product.id}
         description={product.product_description}
         label={product.product_name}
         price={product.product_price}

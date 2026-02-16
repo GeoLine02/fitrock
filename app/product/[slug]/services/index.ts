@@ -11,3 +11,22 @@ export async function getProductDetails(productId: number): Promise<Product> {
     throw error.message;
   }
 }
+
+export async function addToCart(
+  productId: number,
+  userId: number,
+  productQuantity: number,
+) {
+  try {
+    const res = await api.post("/cart", {
+      productId,
+      userId,
+      productQuantity,
+    });
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
