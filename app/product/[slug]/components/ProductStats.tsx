@@ -6,7 +6,7 @@ import { useState } from "react";
 import { addToCart } from "../services";
 import { useUser } from "@/providers/UserProvider";
 import { toast, ToastContainer } from "react-toastify";
-import { AxiosError } from "axios";
+
 interface ProductStatsProps {
   id: number;
   label: string;

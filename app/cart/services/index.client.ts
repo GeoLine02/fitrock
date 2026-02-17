@@ -1,20 +1,32 @@
 import api from "@/utils/axios";
 
-export async function decreaseProductQuantity(cartItemId: number) {
+export async function decreaseProductQuantityService(cartItemId: number) {
   try {
     const res = await api.patch("/cart/quantity/decrease", {
       cartItemId,
     });
-    return res.data;
+    return res;
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function increaseProductQuantity(cartItemId: number) {
+export async function increaseProductQuantityService(cartItemId: number) {
   try {
-    const res = await api.patch("/cart/quantity/increase");
-    return res.data;
+    console.log("cart service");
+    const res = await api.patch("/cart/quantity/increase", {
+      cartItemId,
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteProduct(cartItemId: number) {
+  try {
+    const res = await api.delete(`/cart/${cartItemId}`);
+    return res;
   } catch (error) {
     console.log(error);
   }

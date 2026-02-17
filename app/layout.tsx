@@ -5,6 +5,7 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/Footer/Footer";
 import QueryProvider from "@/providers/QueryClientProvider";
 import UserProvider from "@/providers/UserProvider";
+import ReduxProvider from "@/providers/ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,17 +29,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <QueryProvider>
-        <UserProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
-            <Header />
-            <main className="container mx-auto">{children}</main>
-            <Footer />
-          </body>
-        </UserProvider>
-      </QueryProvider>
+      <ReduxProvider>
+        <QueryProvider>
+          <UserProvider>
+            <body
+              className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+              <Header />
+              <main className="container mx-auto">{children}</main>
+              <Footer />
+            </body>
+          </UserProvider>
+        </QueryProvider>
+      </ReduxProvider>
     </html>
   );
 }

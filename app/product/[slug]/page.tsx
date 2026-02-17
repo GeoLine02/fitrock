@@ -7,6 +7,7 @@ interface ProductDetaislProps {
 }
 
 export default async function ProductDetails({ params }: ProductDetaislProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_productName, productId] = (await params).slug.split("-");
   const product = await getProductDetails(Number(productId));
   return (

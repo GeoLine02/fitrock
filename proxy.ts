@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import api from "./utils/axios";
-import { cookies } from "next/headers";
 
 export async function proxy(request: NextRequest) {
   const protectedRoutes = ["/cart"];
 
-  const refreshAccessToken = async () => {
+  const refreshAccessToken = async (refreshToken: string) => {
     try {
       const res = await api.post(
         "/auth/refresh-token",
@@ -20,12 +19,13 @@ export async function proxy(request: NextRequest) {
       return res.data.accessToken;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get("refreshToken")?.value;
-  const accessToken = cookieStore.get("accessToken")?.value;
+  // Get tokens from request cookies
+  const refreshToken = request.cookies.get("refreshToken")?.value;
+  const accessToken = request.cookies.get("accessToken")?.value;
   const pathname = request.nextUrl.pathname;
 
   // Redirect authenticated users away from auth pages
@@ -47,23 +47,29 @@ export async function proxy(request: NextRequest) {
 
   // Refresh token if needed
   if (refreshToken && !accessToken) {
-    const newAccessToken = await refreshAccessToken();
-    console.log("new Access token", newAccessToken);
+    const newAccessToken = await refreshAccessToken(refreshToken);
 
-    const response = NextResponse.next();
-    response.cookies.set("accessToken", newAccessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-    });
+    if (newAccessToken) {
+      console.log(newAccessToken);
 
-    return response;
+      const response = NextResponse.next();
+
+      // Set the cookie in the response
+      response.cookies.set("accessToken", newAccessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/",
+        maxAge: 15 * 60, // 15 minutes
+      });
+
+      return response;
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: "/((?!api|_next/static|_next/image|.*\\.png$).*)",
+  matcher: "/((?!_next/static|_next/image|.*\\.png$).*)",
 };

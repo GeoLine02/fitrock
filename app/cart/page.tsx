@@ -6,7 +6,7 @@ export default async function Cart() {
   const cartItems = await getCartItems();
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full px-4 md:px-0">
       {/* Page content */}
       <div className="mt-4">
         <h1 className="text-2xl lg:text-3xl font-bold mb-2 lg:mb-6">
@@ -17,12 +17,12 @@ export default async function Cart() {
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Cart table */}
           <div className="w-full lg:flex-1">
-            <CartTable cartItems={cartItems} />
+            <CartTable cartItemsData={cartItems} />
           </div>
 
           {/* Cart totals */}
           <div className="w-full lg:w-85">
-            <CartTotal price={429.96} />
+            <CartTotal />
           </div>
         </div>
       </div>

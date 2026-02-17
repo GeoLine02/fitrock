@@ -1,12 +1,27 @@
+"use client";
+
 import { CartItemType } from "@/types/cart";
 import CartItem from "./CartItem";
 import CardPicture from "@/public/Fitrock-assets/imgs/dumbbells.png";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/state/store";
+import { saveCartItems } from "@/state/features/cartSlice";
 
 interface CartTableProps {
-  cartItems: CartItemType[];
+  cartItemsData: CartItemType[];
 }
 
-export default function CartTable({ cartItems }: CartTableProps) {
+export default function CartTable({ cartItemsData }: CartTableProps) {
+  const { cart, selectedItems } = useSelector(
+    (state: RootState) => state.CartReducer,
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(saveCartItems(cartItemsData));
+  }, [dispatch, cartItemsData]);
+
   return (
     <div className="flex justify-center mt-2 w-full">
       <div className="w-full border border-gray-200 rounded-xl overflow-hidden bg-white">
@@ -20,20 +35,21 @@ export default function CartTable({ cartItems }: CartTableProps) {
           <div className="col-span-3 text-center">Quantity</div>
 
           <div className="col-span-1 text-right">Total</div>
-
-          <div className="col-span-1 text-center" />
         </div>
 
         {/* Cart Items */}
-        {cartItems.length > 0 ? (
-          cartItems.map((item) => (
+        {cart.length > 0 ? (
+          cart.map((item) => (
             <CartItem
               key={item.id}
+              id={item.id}
               img={CardPicture}
               label={item.product.product_name}
               price={item.product.product_price}
               quantity={item.product_quantity}
+              intStock={item.product.product_quantity}
               discount={item.product.product_discount ?? 0}
+              isSelected={selectedItems.includes(item.id)}
             />
           ))
         ) : (
