@@ -14,8 +14,7 @@ export const registerUserSchema = z.object({
     .string()
     .regex(/^\d+$/, "Phone number must contain only digits")
     .min(10, "Phone number must be at least 10 digits")
-    .max(15, "Phone number cannot exceed 15 digits")
-    .optional(),
+    .max(15, "Phone number cannot exceed 15 digits"),
 });
 
 export type RegisterFormValues = z.infer<typeof registerUserSchema>;

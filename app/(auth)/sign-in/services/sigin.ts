@@ -1,3 +1,4 @@
+import { User } from "@/types/user.type";
 import api from "@/utils/axios";
 import axios from "axios";
 
@@ -9,12 +10,7 @@ interface SignInPayload {
 interface SignInResponse {
   success: boolean;
   data: {
-    user: {
-      id: number;
-      full_name: string;
-      email: string;
-      phone_number: string | null;
-    };
+    user: User;
   };
 }
 

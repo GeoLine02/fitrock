@@ -1,87 +1,53 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios from "axios";
 
-// Extend AxiosRequestConfig for _retry
-declare module "axios" {
-  export interface AxiosRequestConfig {
-    _retry?: boolean;
-  }
-}
+const isServer = typeof window === "undefined";
+const isProduction = process.env.NODE_ENV === "production";
 
-const AUTH_EXCLUDED_ROUTES = ["/auth/login", "/auth/refresh"];
+// change http://localhost:4000 to PROD_API_URL
+
+const baseURL = isServer
+  ? isProduction
+    ? process.env.PROD_API_URL // absolute for production SSR
+    : "http://localhost:4000" // absolute for dev SSR (Next proxy)
+  : "/api"; // browser will handle relative URL
 
 const api = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "development"
-      ? process.env.NEXT_PUBLIC_API_URL
-      : "",
+  baseURL,
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
-let isRefreshing = false;
-let failedQueue: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  resolve: (value?: any) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  reject: (err: any) => void;
-  config: AxiosRequestConfig;
-}[] = [];
+export default api;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const processQueue = (error: any) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve();
-    }
-  });
-  failedQueue = [];
-};
+axios.defaults.withCredentials = true;
 
 api.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
+  async (error) => {
     const originalRequest = error.config;
 
-    if (!originalRequest || !error.response) {
+    if (!originalRequest) {
       return Promise.reject(error);
     }
 
-    const status = error.response.status;
-    const url = originalRequest.url || "";
-
-    // 🚫 Do NOT refresh for login or refresh endpoints
+    // Prevent infinite loop
     if (
-      status === 401 &&
+      error.response?.status === 401 &&
       !originalRequest._retry &&
-      !AUTH_EXCLUDED_ROUTES.some((route) => url.includes(route))
+      !originalRequest.url?.includes("/auth/refresh-token")
     ) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject, config: originalRequest });
-        }).then(() => api(originalRequest));
-      }
-
       originalRequest._retry = true;
-      isRefreshing = true;
 
       try {
-        await api.post("/auth/refresh");
-        processQueue(null);
+        // 1️⃣ Refresh token
+        await api.post("/auth/refresh-token", {}, { withCredentials: true });
+
+        // 2️⃣ Retry original request
         return api(originalRequest);
-      } catch (err) {
-        processQueue(err);
-        return Promise.reject(err);
-      } finally {
-        isRefreshing = false;
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
       }
     }
 
     return Promise.reject(error);
   },
 );
-
-export default api;

@@ -19,10 +19,10 @@ export default function Footer() {
   return (
     <footer className="mt-10 bg-gray-50 rounded-2xl p-6 sm:p-10">
       <div
-        className="grid gap-10 
+        className="grid gap-10
+        container mx-auto 
         grid-cols-1 
-        sm:grid-cols-2 
-        lg:grid-cols-4"
+        sm:grid-cols-2 lg:grid-cols-4"
       >
         {/* Brand */}
         <div className="flex flex-col gap-3">
