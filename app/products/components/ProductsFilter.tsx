@@ -1,9 +1,34 @@
 "use client";
 
 import Button from "@/components/Button";
+import { FiltersType } from "@/types/filters";
+import { ActiveFilters } from "./ProductsContainer";
+import { ChangeEvent } from "react";
 
-const ProductsFilter = () => {
-  const weightOptions = [1, 2, 5, 10, 15, 20, 25];
+interface ProductsFilterProps {
+  filtersData: FiltersType[];
+  filters: ActiveFilters;
+  setFilters: React.Dispatch<React.SetStateAction<ActiveFilters>>;
+}
+
+const ProductsFilter = ({
+  filtersData,
+  filters,
+  setFilters,
+}: ProductsFilterProps) => {
+  const handleSelectFilter = (filter: FiltersType) => {
+    setFilters((prev) => ({
+      ...prev,
+      weightId: prev.weightId === filter.id ? undefined : filter.id,
+    }));
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilters((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   return (
     <div className="w-full p-6 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200">
@@ -15,13 +40,16 @@ const ProductsFilter = () => {
             <h2 className="text-sm font-medium text-gray-600">
               Select weight (kg)
             </h2>
-            <div className="space-x-2 space-y-2">
-              {weightOptions.map((weight) => (
-                <Button key={weight} classname="font-medium" bgColor="black">
-                  {weight} kg
-                </Button>
-              ))}
-            </div>
+            {filtersData.map((filter) => (
+              <Button
+                key={filter.id}
+                classname="font-medium"
+                bgColor={filters.weightId === filter.id ? "orange" : "black"}
+                onClick={() => handleSelectFilter(filter)}
+              >
+                {filter.weight_amount} kg
+              </Button>
+            ))}
           </div>
         </div>
 
@@ -51,6 +79,9 @@ const ProductsFilter = () => {
                   type="number"
                   placeholder="0"
                   min="0"
+                  name="minPrice"
+                  onChange={handleInputChange}
+                  value={filters.minPrice ?? ""}
                 />
               </div>
             </div>
@@ -71,6 +102,9 @@ const ProductsFilter = () => {
                   type="number"
                   placeholder="999"
                   min="0"
+                  name="maxPrice"
+                  value={filters.maxPrice ?? ""}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>

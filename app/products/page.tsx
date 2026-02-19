@@ -1,11 +1,11 @@
-import ProductsFilter from "./components/ProductsFilter";
-import ProductsList from "./components/ProductsList";
+import ProductsContainer from "./components/ProductsContainer";
+import { getAllFilters } from "./services";
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const filters = await getAllFilters();
   return (
     <div className="px-4 md:px-12 mt-4">
-      <ProductsFilter />
-      <ProductsList />
+      <ProductsContainer filtersData={filters} />
     </div>
   );
 }

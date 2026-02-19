@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function CartTotal() {
   const { cart, selectedItems } = useSelector(
-    (state: RootState) => state.CartReducer,
+    (state: RootState) => state.cartReducer,
   );
 
   const selectedCart = cart.filter((item) => selectedItems.includes(item.id));

@@ -13,7 +13,6 @@ export async function decreaseProductQuantityService(cartItemId: number) {
 
 export async function increaseProductQuantityService(cartItemId: number) {
   try {
-    console.log("cart service");
     const res = await api.patch("/cart/quantity/increase", {
       cartItemId,
     });

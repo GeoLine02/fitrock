@@ -50,8 +50,6 @@ export async function proxy(request: NextRequest) {
     const newAccessToken = await refreshAccessToken(refreshToken);
 
     if (newAccessToken) {
-      console.log(newAccessToken);
-
       const response = NextResponse.next();
 
       // Set the cookie in the response

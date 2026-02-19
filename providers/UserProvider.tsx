@@ -13,7 +13,6 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  console.log(user);
   useEffect(() => {
     const handleGetUser = async () => {
       const res = await getUser();

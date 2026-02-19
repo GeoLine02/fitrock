@@ -45,7 +45,6 @@ function ProductStats({
       }
 
       const res = await addToCart(id, user.id, quantity);
-      console.log(res);
       toast.success(res.message);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

@@ -14,9 +14,9 @@ interface CartTableProps {
 
 export default function CartTable({ cartItemsData }: CartTableProps) {
   const { cart, selectedItems } = useSelector(
-    (state: RootState) => state.CartReducer,
+    (state: RootState) => state.cartReducer,
   );
-
+  console.log("cart", cart);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(saveCartItems(cartItemsData));

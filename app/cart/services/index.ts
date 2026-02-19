@@ -12,7 +12,6 @@ export async function getCartItems() {
         Cookie: `accessToken=${acceskToken}`,
       },
     });
-    console.log("res", res.data);
     return res.data;
   } catch (error) {
     console.log(error);
