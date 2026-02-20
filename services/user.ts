@@ -2,11 +2,13 @@ import api from "@/utils/axios";
 
 export const getUser = async () => {
   try {
-    const response = await api.get(`/users/me`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    throw error;
+    return await api.get("/users/me");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.response?.status === 401) {
+      return null; // Not logged in → normal case
+    }
+    throw error; // real error
   }
 };
 

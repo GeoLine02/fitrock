@@ -16,12 +16,16 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const handleGetUser = async () => {
       const res = await getUser();
-      setUser(res.data);
+
+      if (res?.data) {
+        setUser(res.data);
+      } else {
+        setUser(null);
+      }
     };
-    if (!user) {
-      handleGetUser();
-    }
-  }, [user]);
+
+    handleGetUser();
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

@@ -48,7 +48,6 @@ export async function proxy(request: NextRequest) {
   // Refresh token if needed
   if (refreshToken && !accessToken) {
     const newAccessToken = await refreshAccessToken(refreshToken);
-
     if (newAccessToken) {
       const response = NextResponse.next();
 

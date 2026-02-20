@@ -32,8 +32,8 @@ api.interceptors.response.use(
     // Prevent infinite loop
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url?.includes("/auth/refresh-token")
+      error.response?.data?.message === "Token expired" &&
+      !originalRequest._retry
     ) {
       originalRequest._retry = true;
 
