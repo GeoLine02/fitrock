@@ -1,20 +1,26 @@
 "use client";
 
+import { useUser } from "@/providers/UserProvider";
 import classNames from "classnames";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Button from "./Button";
 
 interface SideMenuProps {
   isSideBarOpen: boolean;
   handleToggleSideMenu: () => void;
+  logOut: () => Promise<void>;
 }
 
 export default function SideMenu({
   isSideBarOpen,
   handleToggleSideMenu,
+  logOut,
 }: SideMenuProps) {
   const pathname = usePathname();
+
+  const { user } = useUser();
 
   const slidingStyles = classNames(
     "absolute top-0 ease-in-out duration-300 transition-all",
@@ -67,14 +73,19 @@ export default function SideMenu({
         >
           About Us
         </Link>
-
-        <Link
-          onClick={handleToggleSideMenu}
-          className={linkClasses("/sign-in")}
-          href="/sign-in"
-        >
-          Sign In
-        </Link>
+        {user ? (
+          <Button onClick={logOut} bgColor="black">
+            LogOut
+          </Button>
+        ) : (
+          <Link
+            onClick={handleToggleSideMenu}
+            className={linkClasses("/sign-in")}
+            href="/sign-in"
+          >
+            Sign In
+          </Link>
+        )}
       </div>
     </div>
   );

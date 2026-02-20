@@ -9,3 +9,12 @@ export const getUser = async () => {
     throw error;
   }
 };
+
+export async function logOut() {
+  try {
+    const res = await api.post("/auth/logout");
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

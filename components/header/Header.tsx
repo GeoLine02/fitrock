@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useState } from "react";
 import SideMenu from "../SideMenu";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/providers/UserProvider";
+import { logOut } from "@/services/user";
 
 export default function Header() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
@@ -17,6 +19,17 @@ export default function Header() {
   };
 
   const pathName = usePathname();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      setUser(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { user, setUser } = useUser();
 
   if (pathName.startsWith("/sign-in") || pathName.startsWith("/sign-up"))
     return null;
@@ -63,13 +76,24 @@ export default function Header() {
           <span className="lg:hidden" onClick={handleToggleSideMenu}>
             <Menu />
           </span>
-          <Link className="hidden lg:block" href={"/sign-in"}>
-            <Button bgColor="black">Sign In</Button>
-          </Link>
+          {user ? (
+            <Button
+              onClick={handleLogout}
+              className="hidden lg:block"
+              bgColor="black"
+            >
+              Sign Out
+            </Button>
+          ) : (
+            <Link className="hidden lg:block" href={"/sign-in"}>
+              <Button bgColor="black">Sign In</Button>
+            </Link>
+          )}
         </div>
         <SideMenu
           handleToggleSideMenu={handleToggleSideMenu}
           isSideBarOpen={isSideBarOpen}
+          logOut={logOut}
         />
       </div>
     </header>
