@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Product } from "@/types/product.type";
 import { popularProducts } from "@/data/popularProducts";
 
 export default function PopularProducts() {
@@ -27,12 +26,13 @@ export default function PopularProducts() {
         }}
         loop={true}
       >
-        {popularProducts.map((product: Product) => (
+        {popularProducts.map((product) => (
           <SwiperSlide className="w-fit!" key={product.id}>
             <ProductCard
               id={product.id}
-              label={product.label}
+              name={product.label}
               price={product.price}
+              discount={product.discount}
             />
           </SwiperSlide>
         ))}

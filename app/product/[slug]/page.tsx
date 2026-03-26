@@ -1,3 +1,4 @@
+import JsonLd from "@/components/JsonLd";
 import ProductPreview from "./components/ProductPreview";
 import ProductStats from "./components/ProductStats";
 import { getProductDetails } from "./services";
@@ -7,11 +8,22 @@ interface ProductDetaislProps {
 }
 
 export default async function ProductDetails({ params }: ProductDetaislProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_productName, productId] = (await params).slug.split("-");
   const product = await getProductDetails(Number(productId));
   return (
     <div className="flex flex-col lg:flex-row gap-4 mt-4 px-4">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Fitrock",
+          url:
+            process.env.NODE_ENV === "development"
+              ? "http://localhost:3000"
+              : process.env.NEXT_PUBLIC_FRONT_END_URL +
+                `/product/${_productName}-${productId}`,
+        }}
+      />
       <ProductPreview />
       <ProductStats
         id={product.id}

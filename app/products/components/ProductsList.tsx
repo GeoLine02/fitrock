@@ -44,7 +44,7 @@ const ProductsList = ({ filters }: ProductListProps) => {
               <ProductCard
                 key={product.id}
                 id={product.id}
-                label={product.product_name}
+                name={product.product_name}
                 price={product.product_price}
                 discount={product.product_discount}
               />

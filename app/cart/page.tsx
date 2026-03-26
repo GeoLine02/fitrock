@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import CartTable from "./components/CartTable";
 import CartTotal from "./components/CartTotal";
 import { getCartItems } from "./services";

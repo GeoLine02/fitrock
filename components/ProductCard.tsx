@@ -6,15 +6,15 @@ import Link from "next/link";
 
 interface ProductCardProps {
   id: number;
-  label: string;
+  name: string;
   price: number;
   discount: number;
 }
 
-export default function ProductCard({ id, label, price }: ProductCardProps) {
+export default function ProductCard({ id, name, price }: ProductCardProps) {
   return (
     <Link
-      href={`/product/${label}-${id}`}
+      href={`/product/${name}-${id}`}
       className="
       border-2 rounded-lg border-gray-200 p-2 lg:p-4 space-y-1 bg-white flex flex-col cursor-pointer duration-200 w-full max-w-75
       hover:shadow-xl
@@ -24,16 +24,16 @@ export default function ProductCard({ id, label, price }: ProductCardProps) {
     >
       {/* Image */}
       <div className="relative w-full aspect-square mb-3">
-        <Image src={ProductImage} alt={label} fill className="object-contain" />
+        <Image src={ProductImage} alt={name} fill className="object-contain" />
       </div>
 
       {/* Content */}
       <div className="flex-1">
         <h1
-          title={label}
+          title={name}
           className="text-sm sm:text-base font-medium truncate text-ellipsis leading-snug max-w-[9em] line-clamp-1"
         >
-          {label}
+          {name}
         </h1>
 
         <p className="mt-1 text-sm sm:text-base font-bold">{price} GEL</p>
