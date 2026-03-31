@@ -7,7 +7,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const baseURL = isServer
   ? isProduction
-    ? process.env.PROD_API_URL // absolute for production SSR
+    ? process.env.NEXT_PUBLIC_API_URL // absolute for production SSR
     : "http://localhost:4000" // absolute for dev SSR (Next proxy)
   : "/api"; // browser will handle relative URL
 
