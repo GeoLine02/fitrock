@@ -60,8 +60,8 @@ export default function SideMenu({
 
         <Link
           onClick={handleToggleSideMenu}
-          className={linkClasses("/contact")}
-          href="/contact"
+          className={linkClasses("/contact-us")}
+          href="/contact-us"
         >
           Contact
         </Link>
