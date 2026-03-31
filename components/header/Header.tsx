@@ -79,13 +79,13 @@ export default function Header() {
           {user ? (
             <Button
               onClick={handleLogout}
-              className="hidden lg:block"
+              classname="hidden lg:block"
               bgColor="black"
             >
               Sign Out
             </Button>
           ) : (
-            <Link className="hidden lg:block" href={"/sign-in"}>
+            <Link className="hidden! lg:block!" href={"/sign-in"}>
               <Button bgColor="black">Sign In</Button>
             </Link>
           )}

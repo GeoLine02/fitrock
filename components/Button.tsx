@@ -21,7 +21,7 @@ export default function Button({
       disabled={disabled}
       {...rest}
       className={`
-        ${classname ?? ""}
+        ${classname}
         px-4 md:px-6 py-1 md:py-2
         ${bgColor === "black" ? "bg-black" : "bg-customOrange"}
         font-medium

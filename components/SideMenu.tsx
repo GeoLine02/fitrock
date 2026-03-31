@@ -75,7 +75,7 @@ export default function SideMenu({
         </Link>
         {user ? (
           <Button onClick={logOut} bgColor="black">
-            LogOut
+            Sign Out
           </Button>
         ) : (
           <Link
