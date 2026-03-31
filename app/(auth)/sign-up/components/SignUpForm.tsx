@@ -44,6 +44,12 @@ export default function SignUpForm() {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      const message = error.response.data.message;
+      if (message === "Email already exists") {
+        setError("email", message);
+        return;
+      }
+
       setError("root", {
         type: "server",
         message: error.message,
