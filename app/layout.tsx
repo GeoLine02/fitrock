@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/Footer/Footer";
+import MainContainer from "@/components/MainContainer";
 import QueryProvider from "@/providers/QueryClientProvider";
 import UserProvider from "@/providers/UserProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
@@ -69,7 +70,7 @@ export default function RootLayout({
               className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
               <Header />
-              <main className="container mx-auto">{children}</main>
+              <MainContainer>{children}</MainContainer>
               <Footer />
             </body>
           </UserProvider>

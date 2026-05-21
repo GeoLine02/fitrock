@@ -15,21 +15,28 @@ export default function Button({
   disabled,
   ...rest
 }: ButtonProps) {
+  const colorStyles =
+    bgColor === "black"
+      ? "bg-neutral-900 hover:bg-neutral-700 active:bg-neutral-800 focus-visible:ring-neutral-900/40"
+      : "bg-customOrange hover:bg-orange-600 active:bg-orange-700 focus-visible:ring-customOrange/40";
+
   return (
     <button
       type={type}
       disabled={disabled}
       {...rest}
       className={`
-        ${classname}
-        px-4 md:px-6 py-1 md:py-2
-        ${bgColor === "black" ? "bg-black" : "bg-customOrange"}
-        font-medium
-        ${!disabled ? "cursor-pointer hover:bg-gray-700" : "cursor-not-allowed opacity-50"}
-        transition-all duration-200
-        text-white
-        rounded-md
+        inline-flex items-center justify-center gap-2
+        px-4 md:px-6 py-2 md:py-2.5
+        ${colorStyles}
+        font-medium text-white
+        rounded-lg
+        shadow-sm hover:shadow-md
+        transition-all duration-200 ease-out
+        focus:outline-none focus-visible:ring-4
+        ${!disabled ? "cursor-pointer active:translate-y-px" : "cursor-not-allowed opacity-50 hover:shadow-sm"}
         ${width ?? ""}
+        ${classname ?? ""}
       `}
     >
       {children}

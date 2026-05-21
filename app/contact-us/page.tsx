@@ -17,10 +17,19 @@ export default function ContactUs() {
               : process.env.NEXT_PUBLIC_FRONT_END_URL + "/contact-us",
         }}
       />
-      <div className="px-4 lg:px-12">
-        <h1 className="text-3xl font-bold py-3 mt-3">Contact Us</h1>
+      <div className="px-4 py-8 lg:px-12">
+        <div className="mb-8">
+          <p className="text-xs font-semibold uppercase tracking-wider text-customOrange">
+            Get in touch
+          </p>
+          <h1 className="mt-1 text-3xl font-bold md:text-4xl">Contact Us</h1>
+          <p className="mt-2 max-w-xl text-sm text-gray-600">
+            Have a question, request, or feedback? Drop us a message and we'll
+            get back to you shortly.
+          </p>
+        </div>
 
-        <div className="w-full grid gap-8 items-stretch grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid w-full grid-cols-1 items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3">
           <div className="col-span-1">
             <SendMessage />
           </div>
@@ -29,7 +38,7 @@ export default function ContactUs() {
             <OurDetals />
           </div>
 
-          <div className="w-full col-span-1 md:col-span-2 xl:col-span-1">
+          <div className="col-span-1 w-full md:col-span-2 xl:col-span-1">
             <Map />
           </div>
         </div>

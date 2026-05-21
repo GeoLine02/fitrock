@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash } from "lucide-react";
+import { Minus, Plus, Trash } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
 import {
@@ -24,7 +24,7 @@ interface CartItemProps {
   price: number;
   intStock: number;
   quantity: number;
-  discount: number; // percentage (example: 20 for 20%)
+  discount: number;
   isSelected: boolean;
 }
 
@@ -90,7 +90,7 @@ export default function CartItem({
       const res = await deleteProduct(id);
       if (res?.status === 200) {
         dispatch(deleteCartItem(id));
-        toast.success("Item delected successfully");
+        toast.success("Item deleted successfully");
       }
     } catch (error) {
       console.log(error);
@@ -102,46 +102,49 @@ export default function CartItem({
   };
 
   return (
-    <div className="border-b border-gray-100 p-4 md:p-0">
-      <div className="grid grid-cols-1 md:grid-cols-12 md:items-center md:px-6 md:py-5 gap-4">
+    <div className="border-b border-gray-100 last:border-b-0">
+      <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-12 md:items-center md:gap-2 md:px-6 md:py-5">
         {/* Product */}
-        <div className="md:col-span-5 flex items-center gap-3">
+        <div className="flex items-center gap-3 md:col-span-5">
           <input
             onChange={handleSelectItem}
             checked={isSelected}
             type="checkbox"
-            className="w-4 h-4 accent-customOrange"
+            className="h-4 w-4 cursor-pointer accent-customOrange"
           />
 
-          <Image src={img} alt={label} className="w-16 h-16 object-contain" />
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-gray-50">
+            <Image
+              src={img}
+              alt={label}
+              className="h-14 w-14 object-contain"
+            />
+          </div>
 
-          <span className="text-sm font-medium text-gray-800">{label}</span>
+          <span className="line-clamp-2 text-sm font-medium text-gray-800">
+            {label}
+          </span>
         </div>
 
         {/* Price */}
-        <div className="md:col-span-2 md:text-right flex justify-between md:block text-sm">
-          <span className="md:hidden text-gray-500">Price</span>
+        <div className="flex justify-between text-sm md:col-span-2 md:block md:text-right">
+          <span className="text-gray-500 md:hidden">Price</span>
 
-          <div className="flex md:flex-col md:items-end items-center gap-2 md:gap-1">
+          <div className="flex items-center gap-2 md:flex-col md:items-end md:gap-1">
             {discount > 0 ? (
               <>
-                {/* Original price */}
                 <span className="text-gray-400 line-through">
                   ${price.toFixed(2)}
                 </span>
-
-                {/* Discounted price */}
-                <span className="text-gray-900 font-semibold">
+                <span className="font-semibold text-gray-900">
                   ${discountedPrice.toFixed(2)}
                 </span>
-
-                {/* Discount badge */}
-                <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded">
+                <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-600">
                   -{discount}%
                 </span>
               </>
             ) : (
-              <span className="text-gray-800 font-medium">
+              <span className="font-medium text-gray-800">
                 ${price.toFixed(2)}
               </span>
             )}
@@ -149,44 +152,50 @@ export default function CartItem({
         </div>
 
         {/* Quantity */}
-        <div className="md:col-span-3 flex justify-between md:justify-center items-center">
-          <span className="md:hidden text-sm text-gray-500">Quantity</span>
+        <div className="flex items-center justify-between md:col-span-3 md:justify-center">
+          <span className="text-sm text-gray-500 md:hidden">Quantity</span>
 
-          <div className="flex items-center gap-1">
+          <div className="inline-flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white">
             <button
               onClick={handleDecreaseQuantity}
-              className="w-8 h-8 rounded-md bg-customOrange text-white flex items-center justify-center cursor-pointer"
+              disabled={quantity <= 1}
+              aria-label="Decrease quantity"
+              className="flex h-9 w-9 items-center justify-center text-neutral-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              −
+              <Minus size={16} />
             </button>
 
-            <span className="w-6 text-center">{quantity}</span>
+            <span className="w-9 text-center text-sm font-medium text-neutral-900">
+              {quantity}
+            </span>
 
             <button
               onClick={handleIncreaseQuantity}
-              className="w-8 h-8 rounded-md bg-customOrange text-white flex items-center justify-center cursor-pointer"
+              disabled={quantity >= intStock}
+              aria-label="Increase quantity"
+              className="flex h-9 w-9 items-center justify-center text-neutral-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              +
+              <Plus size={16} />
             </button>
           </div>
         </div>
 
         {/* Total */}
-        <div className="md:col-span-1 flex justify-between md:justify-end items-center">
-          <span className="md:hidden text-sm text-gray-500">Total Price</span>
-
-          <span className="text-sm font-medium text-gray-900">
+        <div className="flex items-center justify-between md:col-span-1 md:justify-end">
+          <span className="text-sm text-gray-500 md:hidden">Total</span>
+          <span className="text-sm font-semibold text-gray-900">
             ${total.toFixed(2)}
           </span>
         </div>
 
         {/* Delete */}
-        <div className="md:col-span-1 flex justify-end">
+        <div className="flex justify-end md:col-span-1">
           <button
             onClick={handleDeleteItem}
-            className="text-gray-400 hover:text-red-500 transition"
+            aria-label="Remove item"
+            className="rounded-md p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
           >
-            <Trash size={22} />
+            <Trash size={18} />
           </button>
         </div>
       </div>

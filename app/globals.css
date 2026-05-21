@@ -1,19 +1,46 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  /* @apply container bg-cover min-h-screen text-white flex flex-col items-center; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  color: black;
+  color: #171717;
+  background-color: #fafafa;
   width: 100%;
   margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(228, 124, 72, 0.25);
+  color: #171717;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: black !important;
+  color: #e47c48 !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.2s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px !important;
+  font-weight: 700;
 }
 
 @theme {

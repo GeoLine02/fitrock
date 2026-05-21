@@ -28,6 +28,20 @@ export async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const pathname = request.nextUrl.pathname;
 
+  // ---- Admin routes ----
+  const isAdminAuthRoute =
+    pathname.startsWith("/admin/signin") ||
+    pathname.startsWith("/admin/signup");
+
+  if (pathname.startsWith("/admin")) {
+    if (!accessToken && !refreshToken && !isAdminAuthRoute) {
+      return NextResponse.redirect(new URL("/admin/signin", request.url));
+    }
+    if ((accessToken || refreshToken) && isAdminAuthRoute) {
+      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+    }
+  }
+
   // Redirect authenticated users away from auth pages
   if (
     (pathname.startsWith("/signin") || pathname.startsWith("/signup")) &&

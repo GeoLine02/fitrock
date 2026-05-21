@@ -7,6 +7,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/state/store";
 import { saveCartItems } from "@/state/features/cartSlice";
+import { ShoppingBag } from "lucide-react";
+import Link from "next/link";
+import Button from "@/components/Button";
 
 interface CartTableProps {
   cartItemsData: CartItemType[];
@@ -22,18 +25,15 @@ export default function CartTable({ cartItemsData }: CartTableProps) {
   }, [dispatch, cartItemsData]);
 
   return (
-    <div className="flex justify-center mt-2 w-full">
-      <div className="w-full border border-gray-200 rounded-xl overflow-hidden bg-white">
+    <div className="flex w-full justify-center">
+      <div className="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
         {/* Header (Desktop Only) */}
-        <div className="hidden md:grid grid-cols-12 items-center bg-gray-50 px-6 py-4 border-b border-gray-200 text-sm font-semibold text-gray-700">
+        <div className="hidden grid-cols-12 items-center border-b border-gray-200 bg-gray-50 px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-600 md:grid">
           <div className="col-span-5">Product</div>
-
-          {/* Updated Price Header */}
           <div className="col-span-2 text-right">Unit Price</div>
-
           <div className="col-span-3 text-center">Quantity</div>
-
           <div className="col-span-1 text-right">Total</div>
+          <div className="col-span-1" />
         </div>
 
         {/* Cart Items */}
@@ -52,8 +52,21 @@ export default function CartTable({ cartItemsData }: CartTableProps) {
             />
           ))
         ) : (
-          <div className="py-12 text-center text-gray-500 text-sm">
-            Your cart is empty.
+          <div className="flex flex-col items-center gap-3 px-6 py-16 text-center">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+              <ShoppingBag size={26} />
+            </span>
+            <div>
+              <h3 className="text-lg font-semibold text-neutral-800">
+                Your cart is empty
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Browse our products and add items to your cart.
+              </p>
+            </div>
+            <Link href="/products">
+              <Button bgColor="orange">Browse products</Button>
+            </Link>
           </div>
         )}
       </div>

@@ -12,6 +12,7 @@ import { registerUserSchema } from "../validators";
 import { ClipLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/providers/UserProvider";
+import { Dumbbell, Lock, Mail, Phone, User } from "lucide-react";
 
 type RegisterFormValues = z.infer<typeof registerUserSchema>;
 
@@ -63,22 +64,32 @@ export default function SignUpForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
-      className="w-95 bg-neutral-800 p-6 rounded-2xl shadow-lg"
+      className="w-[22rem] rounded-2xl bg-neutral-900/90 p-7 shadow-2xl backdrop-blur-sm ring-1 ring-white/10"
     >
-      <h1 className="text-3xl font-bold text-center text-white mb-6">
-        Sign up
-      </h1>
+      <div className="mb-6 flex flex-col items-center">
+        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-customOrange text-white shadow-lg">
+          <Dumbbell size={22} strokeWidth={2.5} />
+        </span>
+        <h1 className="text-2xl font-bold text-white">Create account</h1>
+        <p className="mt-1 text-sm text-gray-400">Join Fitrock today</p>
+      </div>
 
       {/* Full name */}
       <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Name"
-          {...register("full_name")}
-          className="w-full bg-transparent border-b border-neutral-500 py-2 text-white placeholder-gray-400 outline-none focus:border-orange-500"
-        />
+        <div className="relative">
+          <User
+            size={16}
+            className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+          <input
+            type="text"
+            placeholder="Name"
+            {...register("full_name")}
+            className="w-full border-b border-neutral-700 bg-transparent py-2 pl-6 text-white placeholder-gray-500 outline-none transition-colors focus:border-customOrange"
+          />
+        </div>
         {errors.full_name && (
-          <p className="text-red-400 text-sm mt-1">
+          <p className="mt-1 text-xs text-red-400">
             {errors.full_name.message}
           </p>
         )}
@@ -86,71 +97,89 @@ export default function SignUpForm() {
 
       {/* Email */}
       <div className="mb-4">
-        <input
-          type="email"
-          placeholder="Email"
-          autoComplete="username"
-          {...register("email")}
-          className="w-full bg-transparent border-b border-neutral-500 py-2 text-white placeholder-gray-400 outline-none focus:border-orange-500"
-        />
+        <div className="relative">
+          <Mail
+            size={16}
+            className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            autoComplete="username"
+            {...register("email")}
+            className="w-full border-b border-neutral-700 bg-transparent py-2 pl-6 text-white placeholder-gray-500 outline-none transition-colors focus:border-customOrange"
+          />
+        </div>
         {errors.email && (
-          <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+          <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
         )}
       </div>
 
       {/* Phone number (optional) */}
       <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Phone"
-          inputMode="numeric"
-          {...register("phone_number")}
-          className="w-full bg-transparent border-b border-neutral-500 py-2 text-white placeholder-gray-400 outline-none focus:border-orange-500"
-        />
+        <div className="relative">
+          <Phone
+            size={16}
+            className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+          <input
+            type="text"
+            placeholder="Phone"
+            inputMode="numeric"
+            {...register("phone_number")}
+            className="w-full border-b border-neutral-700 bg-transparent py-2 pl-6 text-white placeholder-gray-500 outline-none transition-colors focus:border-customOrange"
+          />
+        </div>
         {errors.phone_number && (
-          <p className="text-red-400 text-sm mt-1">
+          <p className="mt-1 text-xs text-red-400">
             {errors.phone_number.message}
           </p>
         )}
       </div>
 
       {/* Password */}
-      <div className="mb-4">
-        <input
-          type="password"
-          placeholder="Password"
-          autoComplete="new-password"
-          {...register("password")}
-          className="w-full bg-transparent border-b border-neutral-500 py-2 text-white placeholder-gray-400 outline-none focus:border-orange-500"
-        />
+      <div className="mb-5">
+        <div className="relative">
+          <Lock
+            size={16}
+            className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            autoComplete="new-password"
+            {...register("password")}
+            className="w-full border-b border-neutral-700 bg-transparent py-2 pl-6 text-white placeholder-gray-500 outline-none transition-colors focus:border-customOrange"
+          />
+        </div>
         {errors.password && (
-          <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
+          <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
         )}
       </div>
 
       <Button
         type="submit"
         bgColor="orange"
-        classname="w-full font-medium"
+        classname="w-full justify-center font-medium"
         disabled={isSubmitting}
       >
-        {isSubmitting ? <ClipLoader size={25} /> : "Sign up"}
+        {isSubmitting ? <ClipLoader size={20} color="#fff" /> : "Sign up"}
       </Button>
 
       {/* Root error */}
       {errors.root && (
-        <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/30 p-3 mt-4">
-          <p className="text-red-400 text-sm text-center">
+        <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
+          <p className="text-center text-sm text-red-400">
             {errors.root.message}
           </p>
         </div>
       )}
 
-      <p className="text-white flex justify-between text-sm mt-3">
+      <p className="mt-4 flex justify-between text-sm text-gray-300">
         Already have an account?
         <Link
           href="/sign-in"
-          className="text-customOrange cursor-pointer underline"
+          className="font-medium text-customOrange transition-colors hover:text-orange-400 hover:underline"
         >
           Sign In
         </Link>

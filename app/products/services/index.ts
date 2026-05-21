@@ -1,10 +1,19 @@
 import { ProductPreviewCard } from "@/types/products";
 import api from "@/utils/axios";
 
+export type ProductSort =
+  | "price_asc"
+  | "price_desc"
+  | "name_asc"
+  | "name_desc"
+  | "discount_desc"
+  | "newest";
+
 export interface AllProductsResult {
   products: ProductPreviewCard[];
   currentPage: number;
   nextPage: number | null;
+  total?: number;
 }
 
 interface GetAllProductsParams {
@@ -12,6 +21,10 @@ interface GetAllProductsParams {
   weightFilterId?: number;
   minPrice?: number;
   maxPrice?: number;
+  search?: string;
+  sort?: ProductSort;
+  onSale?: boolean;
+  inStock?: boolean;
 }
 
 export async function getAllProducts({
@@ -19,9 +32,12 @@ export async function getAllProducts({
   weightFilterId,
   minPrice,
   maxPrice,
+  search,
+  sort,
+  onSale,
+  inStock,
 }: GetAllProductsParams): Promise<AllProductsResult> {
   try {
-    // Build query params dynamically
     const queryParams = new URLSearchParams({ page: String(pageParam) });
 
     if (weightFilterId !== undefined)
@@ -30,6 +46,11 @@ export async function getAllProducts({
       queryParams.append("minPrice", String(minPrice));
     if (maxPrice !== undefined)
       queryParams.append("maxPrice", String(maxPrice));
+    if (search && search.trim().length > 0)
+      queryParams.append("search", search.trim());
+    if (sort) queryParams.append("sort", sort);
+    if (onSale) queryParams.append("onSale", "true");
+    if (inStock) queryParams.append("inStock", "true");
 
     const res = await api.get(`/products?${queryParams.toString()}`);
     return res.data;

@@ -9,6 +9,7 @@ import { LoginUserInput, loginUserSchema } from "../validators";
 import { signIn } from "../services/sigin";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/providers/UserProvider";
+import { Dumbbell, Lock, Mail } from "lucide-react";
 
 const SignInForm = () => {
   const {
@@ -43,43 +44,59 @@ const SignInForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-95 bg-neutral-800 p-6 rounded-2xl shadow-lg"
+      className="w-[22rem] rounded-2xl bg-neutral-900/90 p-7 shadow-2xl backdrop-blur-sm ring-1 ring-white/10"
     >
-      <h1 className="text-3xl font-bold text-center text-white mb-6">
-        Sign in
-      </h1>
+      <div className="mb-6 flex flex-col items-center">
+        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-customOrange text-white shadow-lg">
+          <Dumbbell size={22} strokeWidth={2.5} />
+        </span>
+        <h1 className="text-2xl font-bold text-white">Welcome back</h1>
+        <p className="mt-1 text-sm text-gray-400">Sign in to continue</p>
+      </div>
 
       {/* Email */}
       <div className="mb-4">
-        <input
-          type="email"
-          placeholder="Email"
-          {...register("email")}
-          autoComplete="username"
-          className="w-full bg-transparent border-b border-neutral-500 py-2 text-white placeholder-gray-400 outline-none focus:border-orange-500"
-        />
+        <div className="relative">
+          <Mail
+            size={16}
+            className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            {...register("email")}
+            autoComplete="username"
+            className="w-full border-b border-neutral-700 bg-transparent py-2 pl-6 text-white placeholder-gray-500 outline-none transition-colors focus:border-customOrange"
+          />
+        </div>
         {errors.email && (
-          <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+          <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
         )}
       </div>
 
       {/* Password */}
-      <div className="mb-4">
-        <input
-          type="password"
-          placeholder="Password"
-          {...register("password")}
-          autoComplete="new-password"
-          className="w-full bg-transparent border-b border-neutral-500 py-2 text-white placeholder-gray-400 outline-none focus:border-orange-500"
-        />
+      <div className="mb-5">
+        <div className="relative">
+          <Lock
+            size={16}
+            className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-500"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            {...register("password")}
+            autoComplete="new-password"
+            className="w-full border-b border-neutral-700 bg-transparent py-2 pl-6 text-white placeholder-gray-500 outline-none transition-colors focus:border-customOrange"
+          />
+        </div>
         {errors.password && (
-          <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
+          <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
         )}
       </div>
 
       {errors.root && (
-        <div className="mb-4 rounded-lg bg-red-500/10 border border-red-500/30 mt-4 p-3">
-          <p className="text-red-400 text-sm text-center">
+        <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
+          <p className="text-center text-sm text-red-400">
             {errors.root.message}
           </p>
         </div>
@@ -87,18 +104,18 @@ const SignInForm = () => {
 
       <Button
         bgColor="orange"
-        classname="w-full font-medium"
+        classname="w-full justify-center font-medium"
         type="submit"
         disabled={isSubmitting}
       >
-        {isSubmitting ? <ClipLoader size={25} /> : "Sign in"}
+        {isSubmitting ? <ClipLoader size={20} color="#fff" /> : "Sign in"}
       </Button>
 
-      <p className="text-white flex justify-between text-sm mt-3">
+      <p className="mt-4 flex justify-between text-sm text-gray-300">
         Don&apos;t have account?
         <Link
           href="/sign-up"
-          className="text-[#E47C48] cursor-pointer underline"
+          className="font-medium text-customOrange transition-colors hover:text-orange-400 hover:underline"
         >
           Sign up
         </Link>

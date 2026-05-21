@@ -11,41 +11,69 @@ interface ProductCardProps {
   discount: number;
 }
 
-export default function ProductCard({ id, name, price }: ProductCardProps) {
+export default function ProductCard({
+  id,
+  name,
+  price,
+  discount,
+}: ProductCardProps) {
+  const hasDiscount = discount > 0;
+  const discountedPrice = hasDiscount
+    ? Math.round((price - (price * discount) / 100) * 100) / 100
+    : price;
+
   return (
     <Link
       href={`/product/${name}-${id}`}
       className="
-      border-2 rounded-lg border-gray-200 p-2 lg:p-4 space-y-1 bg-white flex flex-col cursor-pointer duration-200 w-full max-w-75
-      hover:shadow-xl
-      transition-shadow
-      shrink-0
-    "
+        group relative flex w-full max-w-75 shrink-0 flex-col
+        rounded-2xl border border-gray-200 bg-white p-3 lg:p-4
+        shadow-sm transition-all duration-300 ease-out
+        hover:-translate-y-1 hover:border-customOrange/40 hover:shadow-xl
+      "
     >
+      {hasDiscount && (
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-customOrange px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
+          -{discount}%
+        </span>
+      )}
+
       {/* Image */}
-      <div className="relative w-full aspect-square mb-3">
-        <Image src={ProductImage} alt={name} fill className="object-contain" />
+      <div className="relative mb-3 w-full aspect-square overflow-hidden rounded-xl bg-gray-50">
+        <Image
+          src={ProductImage}
+          alt={name}
+          fill
+          className="object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-110"
+        />
       </div>
 
       {/* Content */}
-      <div className="flex-1">
+      <div className="flex-1 space-y-1">
         <h1
           title={name}
-          className="text-sm sm:text-base font-medium truncate text-ellipsis leading-snug max-w-[9em] line-clamp-1"
+          className="line-clamp-1 w-full truncate text-ellipsis text-sm font-medium leading-snug text-neutral-800 sm:text-base"
         >
           {name}
         </h1>
 
-        <p className="mt-1 text-sm sm:text-base font-bold">{price} GEL</p>
+        <div className="flex items-baseline gap-2">
+          <p className="text-sm font-bold text-neutral-900 sm:text-base">
+            {discountedPrice} GEL
+          </p>
+          {hasDiscount && (
+            <p className="text-xs text-gray-400 line-through">{price} GEL</p>
+          )}
+        </div>
       </div>
 
       {/* Button */}
       <Button
         bgColor="black"
-        classname="mt-3 flex items-center justify-center gap-2 w-full text-xs sm:text-sm py-2 whitespace-nowrap"
+        classname="mt-3 w-full text-xs sm:text-sm py-2 whitespace-nowrap"
       >
         Add to cart
-        <ShoppingCart className="w-4 h-4" />
+        <ShoppingCart className="h-4 w-4" />
       </Button>
     </Link>
   );

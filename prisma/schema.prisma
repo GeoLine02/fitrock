@@ -1,0 +1,65 @@
+// Mirrors the existing Sequelize schema produced by fitrock-api.
+// Table names and snake_case columns are mapped explicitly with @map / @@map
+// so this schema attaches to the existing database without renames.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  full_name    String
+  email        String   @unique
+  password     String
+  phone_number String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  carts        Cart[]
+
+  @@map("Users")
+}
+
+model Filter {
+  id            Int       @id @default(autoincrement())
+  weight_amount Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  products      Product[]
+
+  @@map("Filters")
+}
+
+model Product {
+  id                  Int      @id @default(autoincrement())
+  product_name        String
+  product_price       Int
+  product_description String?
+  product_discount    Int?
+  product_quantity    Int?
+  product_weight      Int?
+  filter_id           Int?
+  filter              Filter?  @relation(fields: [filter_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  cartItems           Cart[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("Products")
+}
+
+model Cart {
+  id               Int      @id @default(autoincrement())
+  product_id       Int
+  product_quantity Int
+  user_id          Int
+  user             User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product          Product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("Carts")
+}

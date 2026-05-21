@@ -3,13 +3,17 @@ import axios from "axios";
 const isServer = typeof window === "undefined";
 const isProduction = process.env.NODE_ENV === "production";
 
-// change http://localhost:4000 to PROD_API_URL
+// API now lives in-app as route handlers under /api/*.
+// - Browser: relative "/api"
+// - Server (SSR): absolute URL to this Next app so internal fetches resolve.
 
 const baseURL = isServer
-  ? isProduction
-    ? process.env.NEXT_PUBLIC_API_URL // absolute for production SSR
-    : "http://localhost:4000" // absolute for dev SSR (Next proxy)
-  : "/api"; // browser will handle relative URL
+  ? `${
+      isProduction
+        ? process.env.NEXT_PUBLIC_SITE_URL ?? ""
+        : "http://localhost:3000"
+    }/api`
+  : "/api";
 
 const api = axios.create({
   baseURL,

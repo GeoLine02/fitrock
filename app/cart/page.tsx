@@ -8,21 +8,20 @@ export default async function Cart() {
 
   return (
     <div className="w-full px-4 md:px-0">
-      {/* Page content */}
-      <div className="mt-4">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-2 lg:mb-6">
+      <div className="mt-6 md:mt-8">
+        <h1 className="text-2xl font-bold text-neutral-900 lg:text-3xl">
           Shopping Cart
         </h1>
+        <p className="mt-1 text-sm text-gray-500">
+          Review your items and proceed to checkout.
+        </p>
 
-        {/* Cart layout */}
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Cart table */}
+        <div className="mt-6 flex flex-col items-start gap-6 lg:flex-row">
           <div className="w-full lg:flex-1">
             <CartTable cartItemsData={cartItems} />
           </div>
 
-          {/* Cart totals */}
-          <div className="w-full lg:w-85">
+          <div className="w-full lg:w-80">
             <CartTotal />
           </div>
         </div>
