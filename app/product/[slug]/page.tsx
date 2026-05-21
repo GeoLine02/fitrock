@@ -22,7 +22,7 @@ export default async function ProductDetails({ params }: ProductDetaislProps) {
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"
-              : process.env.NEXT_PUBLIC_FRONT_END_URL +
+              : process.env.NEXT_PUBLIC_URL +
                 `/product/${_productName}-${productId}`,
         }}
       />

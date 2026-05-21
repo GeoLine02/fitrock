@@ -15,7 +15,7 @@ export default async function ProductsPage() {
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"
-              : process.env.NEXT_PUBLIC_FRONT_END_URL + "/products",
+              : process.env.NEXT_PUBLIC_URL + "/products",
         }}
       />
       <ProductsContainer filtersData={filters} />

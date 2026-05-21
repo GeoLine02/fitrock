@@ -13,7 +13,7 @@ export default function AboutUs() {
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"
-              : process.env.NEXT_PUBLIC_FRONT_END_URL + "/about-us",
+              : process.env.NEXT_PUBLIC_URL + "/about-us",
         }}
       />
       <div>
@@ -44,7 +44,9 @@ export default function AboutUs() {
               <p className="text-xs font-semibold uppercase tracking-wider text-customOrange">
                 Our Story
               </p>
-              <h2 className="mt-1 text-2xl font-bold md:text-4xl">Who We Are</h2>
+              <h2 className="mt-1 text-2xl font-bold md:text-4xl">
+                Who We Are
+              </h2>
               <p className="mt-4 text-sm leading-relaxed text-gray-600 md:text-base">
                 khrklsjhrlkjaklsjr alsraklujrkelaja asurlkaukelrujkela asrr ser
                 aega eageasfearluaj aalsuelktuergkuekslgujkea

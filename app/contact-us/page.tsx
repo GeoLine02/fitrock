@@ -14,7 +14,7 @@ export default function ContactUs() {
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"
-              : process.env.NEXT_PUBLIC_FRONT_END_URL + "/contact-us",
+              : process.env.NEXT_PUBLIC_URL + "/contact-us",
         }}
       />
       <div className="px-4 py-8 lg:px-12">
