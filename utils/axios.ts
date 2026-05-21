@@ -1,20 +1,7 @@
 import axios from "axios";
 
-const isServer = typeof window === "undefined";
-const isProduction = process.env.NODE_ENV === "production";
-
-// API now lives in-app as route handlers under /api/*.
-// - Browser: relative "/api"
-// - Server (SSR): absolute URL to this Next app so internal fetches resolve.
-
-const baseURL = isServer
-  ? `${
-      isProduction ? process.env.NEXT_PUBLIC_URL : "http://localhost:3000"
-    }/api`
-  : "/api";
-
 const api = axios.create({
-  baseURL,
+  baseURL: process.env.NEXT_PUBLIC_URL || "http://localhost:3000/api",
   withCredentials: true,
 });
 
