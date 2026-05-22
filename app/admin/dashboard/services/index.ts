@@ -1,52 +1,29 @@
-import adminApi from "@/app/admin/_lib/axios";
-import { cookies } from "next/headers";
+import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/app/api/admin/_lib/auth";
+import { LOW_STOCK_THRESHOLD } from "@/app/api/admin/_lib/validations";
+
+async function ensureAdmin() {
+  const auth = await requireAdmin();
+  if (!auth.ok) {
+    throw new Error("Unauthorized");
+  }
+}
 
 export async function getUserCount() {
-  try {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value;
-
-    const res = await adminApi.get("/user/count", {
-      headers: {
-        Cookie: `accessToken=${accessToken}`,
-      },
-    });
-    return res.data.count;
-  } catch (error) {
-    console.error("Error fetching user count:", error);
-    throw error;
-  }
+  await ensureAdmin();
+  return prisma.user.count({ where: { role: "USER" } });
 }
 
 export async function getProductsCount() {
-  try {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value;
-
-    const res = await adminApi.get("/products/count", {
-      headers: {
-        Cookie: `accessToken=${accessToken}`,
-      },
-    });
-    return res.data.count;
-  } catch (error) {
-    console.error("Error fetching products count:", error);
-    throw error;
-  }
+  await ensureAdmin();
+  return prisma.product.count();
 }
 
 export async function getLowInStockProducts() {
-  try {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value;
-    const res = await adminApi.get("/products/low-in-stock", {
-      headers: {
-        Cookie: `accessToken=${accessToken}`,
-      },
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  await ensureAdmin();
+  const products = await prisma.product.findMany({
+    where: { product_quantity: { lte: LOW_STOCK_THRESHOLD } },
+    orderBy: { product_quantity: "asc" },
+  });
+  return { products };
 }
