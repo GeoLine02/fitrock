@@ -54,6 +54,13 @@ const cartSlice = createSlice({
         ? state.selectedItems.filter((id) => id !== itemId) // deselect
         : [...state.selectedItems, itemId]; // select
     },
+
+    removeCartItems: (state, action) => {
+      const ids = action.payload as number[];
+      const idSet = new Set(ids);
+      state.cart = state.cart.filter((item) => !idSet.has(item.id));
+      state.selectedItems = state.selectedItems.filter((id) => !idSet.has(id));
+    },
   },
 });
 
@@ -63,5 +70,6 @@ export const {
   increaseCartItemQuantity,
   decreseCartItemQuantity,
   selectCartItem,
+  removeCartItems,
 } = cartSlice.actions;
 export default cartSlice.reducer;

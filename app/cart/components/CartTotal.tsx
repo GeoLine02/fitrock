@@ -1,19 +1,42 @@
 "use client";
 
 import Button from "@/components/Button";
-import { RootState } from "@/state/store";
+import { AppDispatch, RootState } from "@/state/store";
+import { removeCartItems } from "@/state/features/cartSlice";
 import { calculateCartTotal } from "@/utils/calculateCartTotal";
 import { Lock, Tag } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { checkoutSelected } from "../services/checkout";
 
 export default function CartTotal() {
   const { cart, selectedItems } = useSelector(
     (state: RootState) => state.cartReducer,
   );
+  const dispatch = useDispatch<AppDispatch>();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const selectedCart = cart.filter((item) => selectedItems.includes(item.id));
   const total = calculateCartTotal(selectedCart);
   const itemCount = selectedCart.length;
+
+  const handleCheckout = async () => {
+    if (itemCount === 0 || isCheckingOut) return;
+    setIsCheckingOut(true);
+    try {
+      const ids = selectedCart.map((c) => c.id);
+      await checkoutSelected(ids);
+      dispatch(removeCartItems(ids));
+      toast.success("Order placed!");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const message = error?.response?.data?.message ?? "Checkout failed";
+      toast.error(message);
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   return (
     <div className="sticky top-24 w-full">
@@ -68,9 +91,10 @@ export default function CartTotal() {
         <Button
           classname="w-full justify-center"
           bgColor="orange"
-          disabled={itemCount === 0}
+          disabled={itemCount === 0 || isCheckingOut}
+          onClick={handleCheckout}
         >
-          Proceed to Checkout
+          {isCheckingOut ? "Placing order..." : "Proceed to Checkout"}
         </Button>
 
         <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-gray-500">

@@ -9,22 +9,42 @@ import {
   getProductsCount,
   getUserCount,
 } from "./services";
+import {
+  getMonthlySales,
+  getOrderStatusCounts,
+  getPopularProducts,
+  getRecentOrders,
+} from "@/lib/analytics";
 
 export default async function Dashboard() {
-  const userCount = await getUserCount();
-  const productsCount = await getProductsCount();
-  const lowInStockProducts = await getLowInStockProducts();
+  const [
+    userCount,
+    productsCount,
+    lowInStockProducts,
+    sales,
+    statusCounts,
+    recentOrders,
+    popularProducts,
+  ] = await Promise.all([
+    getUserCount(),
+    getProductsCount(),
+    getLowInStockProducts(),
+    getMonthlySales(6),
+    getOrderStatusCounts(),
+    getRecentOrders(10),
+    getPopularProducts(6),
+  ]);
 
   return (
     <div className="space-y-6">
       <TotalCounts userCount={userCount} productsCount={productsCount} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <PopularProducts />
-        <SalesChart />
+        <PopularProducts data={popularProducts} />
+        <SalesChart sales={sales} />
       </div>
       <div className="grid grid-cols-1 xs md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <OrderStatusPie />
-        <RecentOrders />
+        <OrderStatusPie counts={statusCounts} />
+        <RecentOrders orders={recentOrders} />
         <LowStock lowStockProducts={lowInStockProducts.products} />
       </div>
     </div>

@@ -36,4 +36,8 @@ export const cartItemIdSchema = z.object({
   cartItemId: z.number().int(),
 });
 
+export const checkoutSchema = z.object({
+  cartItemIds: z.array(z.number().int()).optional(),
+});
+
 export const PRODUCTS_PER_PAGE = 20;

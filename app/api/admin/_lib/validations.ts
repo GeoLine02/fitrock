@@ -45,5 +45,9 @@ export const categoryCreateSchema = z.object({
 
 export const categoryUpdateSchema = categoryCreateSchema.partial();
 
+export const orderStatusUpdateSchema = z.object({
+  status: z.enum(["PENDING", "PAID", "CANCELLED", "REFUNDED"]),
+});
+
 export const ADMIN_PAGE_SIZE = 10;
 export const LOW_STOCK_THRESHOLD = 5;
