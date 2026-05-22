@@ -20,7 +20,7 @@ export default function CreateProductForm({
     register,
     reset,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<ProductData>({
     mode: "onBlur",
     defaultValues: {
@@ -77,6 +77,7 @@ export default function CreateProductForm({
         onSubmit={onSubmit}
         register={register}
         reset={reset}
+        errors={errors}
         action="create"
         imageFiles={imageFiles}
         onImageFilesChange={setImageFiles}

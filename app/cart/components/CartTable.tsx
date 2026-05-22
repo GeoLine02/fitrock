@@ -2,7 +2,6 @@
 
 import { CartItemType } from "@/types/cart";
 import CartItem from "./CartItem";
-import CardPicture from "@/public/Fitrock-assets/imgs/dumbbells.png";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/state/store";
@@ -42,7 +41,7 @@ export default function CartTable({ cartItemsData }: CartTableProps) {
             <CartItem
               key={item.id}
               id={item.id}
-              img={CardPicture}
+              img={item.product.image_url ?? null}
               label={item.product.product_name}
               price={item.product.product_price}
               quantity={item.product_quantity}

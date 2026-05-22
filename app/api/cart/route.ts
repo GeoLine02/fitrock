@@ -4,6 +4,7 @@ import { requireUser } from "@/app/api/_lib/auth";
 import { validateBody } from "@/app/api/_lib/validate";
 import { addToCartSchema } from "@/app/api/_lib/validations";
 import { rateLimit } from "@/app/api/_lib/rateLimit";
+import { publicUrlForBlobKey } from "@/lib/productImages";
 
 export async function GET(req: NextRequest) {
   const limited = rateLimit(req);
@@ -13,10 +14,28 @@ export async function GET(req: NextRequest) {
   if (!auth.ok) return auth.response;
 
   try {
-    const cartItems = await prisma.cart.findMany({
+    const cartItemsRaw = await prisma.cart.findMany({
       where: { user_id: auth.user.id },
-      include: { product: true },
+      include: {
+        product: {
+          include: {
+            images: { orderBy: { sort_order: "asc" }, take: 1 },
+          },
+        },
+      },
     });
+
+    const cartItems = cartItemsRaw.map(({ product, ...rest }) => {
+      const { images, ...productRest } = product;
+      return {
+        ...rest,
+        product: {
+          ...productRest,
+          image_url: images[0] ? publicUrlForBlobKey(images[0].blob_key) : null,
+        },
+      };
+    });
+
     return NextResponse.json(cartItems, { status: 200 });
   } catch (error) {
     console.error(error);

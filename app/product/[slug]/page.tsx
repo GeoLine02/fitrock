@@ -44,7 +44,7 @@ export default async function ProductDetails({ params }: ProductDetaislProps) {
 
       <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
         <ProductPreview
-          images={product.images}
+          images={product.images ?? []}
           productName={product.product_name}
         />
         <ProductStats

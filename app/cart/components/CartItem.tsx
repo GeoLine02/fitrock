@@ -1,7 +1,8 @@
 "use client";
 
 import { Minus, Plus, Trash } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
+import FallbackImage from "@/public/Fitrock-assets/imgs/dumbbells.png";
 import { useEffect, useState } from "react";
 import {
   decreaseProductQuantityService,
@@ -19,7 +20,7 @@ import {
 
 interface CartItemProps {
   id: number;
-  img: StaticImageData;
+  img: string | null;
   label: string;
   price: number;
   intStock: number;
@@ -113,11 +114,13 @@ export default function CartItem({
             className="h-4 w-4 cursor-pointer accent-customOrange"
           />
 
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-gray-50">
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-50">
             <Image
-              src={img}
+              src={img || FallbackImage}
               alt={label}
-              className="h-14 w-14 object-contain"
+              fill
+              sizes="64px"
+              className="object-contain p-1"
             />
           </div>
 

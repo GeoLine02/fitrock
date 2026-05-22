@@ -8,6 +8,7 @@ import {
 import ImageUpload from "@/app/admin/_components/ui/Upload";
 import { ProductData } from "../create/types";
 import {
+  FieldErrors,
   UseFormHandleSubmit,
   UseFormRegister,
   UseFormReset,
@@ -24,6 +25,7 @@ interface ProductFormProps {
   handleSubmit: UseFormHandleSubmit<ProductData, ProductData>;
   register: UseFormRegister<ProductData>;
   reset: UseFormReset<ProductData>;
+  errors: FieldErrors<ProductData>;
   isSubmitting: boolean;
   action: "create" | "update";
   imageFiles: File[];
@@ -37,6 +39,7 @@ export default function ProductForm({
   register,
   reset,
   handleSubmit,
+  errors,
   action,
   isSubmitting,
   imageFiles,
@@ -61,7 +64,11 @@ export default function ProductForm({
               label="Product Name"
               placeholder="Enter product name"
               fullWidth={true}
-              register={register("name")}
+              register={register("name", {
+                required: "Product name is required",
+                minLength: { value: 1, message: "Product name is required" },
+              })}
+              error={errors.name}
             />
 
             <FormInput
@@ -69,44 +76,69 @@ export default function ProductForm({
               label="Price (USD)"
               placeholder="0.00"
               step="0.01"
-              register={register("price")}
+              register={register("price", {
+                required: "Price is required",
+                valueAsNumber: true,
+                min: { value: 0, message: "Price must be non-negative" },
+              })}
+              error={errors.price ?? undefined}
             />
 
             <FormInput
               type="number"
               label="Weight"
               placeholder="0"
-              register={register("weight")}
+              register={register("weight", {
+                valueAsNumber: true,
+                min: { value: 0, message: "Weight must be non-negative" },
+              })}
+              error={errors.weight ?? undefined}
             />
             <FormInput
               type="number"
               label="Discount"
               placeholder="0%"
-              register={register("discount")}
+              register={register("discount", {
+                valueAsNumber: true,
+                min: { value: 0, message: "Discount must be 0 or more" },
+                max: { value: 100, message: "Discount cannot exceed 100" },
+              })}
+              error={errors.discount ?? undefined}
             />
             <FormInput
               type="number"
               label="Quantity"
               placeholder="1"
-              register={register("quantity")}
+              register={register("quantity", {
+                valueAsNumber: true,
+                min: { value: 0, message: "Quantity must be non-negative" },
+              })}
+              error={errors.quantity ?? undefined}
             />
 
             <FormSelect
               label="Weight"
               options={weightFilterOptions}
-              register={register("weightFilterId")}
+              register={register("weightFilterId", {
+                required: "Select a weight",
+              })}
+              error={errors.weightFilterId ?? undefined}
             />
 
             <FormSelect
               label="Category"
               options={categoryOptions}
-              register={register("categoryId")}
+              register={register("categoryId", {
+                required: "Select a category",
+              })}
+              error={errors.categoryId ?? undefined}
             />
 
             <FormTextarea
               label="Description"
               placeholder="Describe your product..."
               register={register("description")}
+              error={errors.description}
               fullWidth={true}
             />
 

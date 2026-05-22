@@ -14,5 +14,5 @@ export interface ProductImagePreview {
 
 export interface Product extends ProductPreviewCard {
   product_description: string;
-  images: ProductImagePreview[];
+  images?: ProductImagePreview[];
 }

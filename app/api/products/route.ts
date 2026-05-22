@@ -80,7 +80,7 @@ export async function GET(req: NextRequest) {
 
     const user = await optionalUser();
 
-    const [productsRaw, total, cart] = await Promise.all([
+    const [productsRaw, total, cartRaw] = await Promise.all([
       prisma.product.findMany({
         where,
         skip: offset,
@@ -94,7 +94,13 @@ export async function GET(req: NextRequest) {
       user
         ? prisma.cart.findMany({
             where: { user_id: user.id },
-            include: { product: true },
+            include: {
+              product: {
+                include: {
+                  images: { orderBy: { sort_order: "asc" }, take: 1 },
+                },
+              },
+            },
           })
         : Promise.resolve([]),
     ]);
@@ -103,6 +109,17 @@ export async function GET(req: NextRequest) {
       ...p,
       image_url: images[0] ? publicUrlForBlobKey(images[0].blob_key) : null,
     }));
+
+    const cart = cartRaw.map(({ product, ...rest }) => {
+      const { images, ...productRest } = product;
+      return {
+        ...rest,
+        product: {
+          ...productRest,
+          image_url: images[0] ? publicUrlForBlobKey(images[0].blob_key) : null,
+        },
+      };
+    });
 
     const nextPage =
       offset + PRODUCTS_PER_PAGE < total ? page + 1 : null;
