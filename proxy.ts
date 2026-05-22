@@ -34,7 +34,10 @@ export async function proxy(request: NextRequest) {
     protectedRoutes.some((route) => pathname.startsWith(route)) &&
     !accessToken
   ) {
-    return NextResponse.redirect(new URL("/", request.url));
+    const signInUrl = new URL("/sign-in", request.url);
+    const returnTo = pathname + (request.nextUrl.search ?? "");
+    signInUrl.searchParams.set("redirectTo", returnTo);
+    return NextResponse.redirect(signInUrl);
   }
 
   return NextResponse.next();

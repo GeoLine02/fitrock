@@ -7,9 +7,15 @@ import { ClipLoader } from "react-spinners";
 import Button from "@/components/Button";
 import { LoginUserInput, loginUserSchema } from "../validators";
 import { signIn } from "../services/sigin";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/providers/UserProvider";
 import { Dumbbell, Lock, Mail } from "lucide-react";
+
+function safeRedirectTarget(value: string | null) {
+  if (!value) return "/";
+  if (!value.startsWith("/") || value.startsWith("//")) return "/";
+  return value;
+}
 
 const SignInForm = () => {
   const {
@@ -23,6 +29,8 @@ const SignInForm = () => {
 
   const { setUser } = useUser();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = safeRedirectTarget(searchParams.get("redirectTo"));
 
   const onSubmit = async (data: LoginUserInput) => {
     try {
@@ -30,7 +38,7 @@ const SignInForm = () => {
 
       if (res.success) {
         setUser(res.data.user);
-        router.push("/");
+        router.push(redirectTo);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -114,7 +122,11 @@ const SignInForm = () => {
       <p className="mt-4 flex justify-between text-sm text-gray-300">
         Don&apos;t have account?
         <Link
-          href="/sign-up"
+          href={
+            redirectTo !== "/"
+              ? `/sign-up?redirectTo=${encodeURIComponent(redirectTo)}`
+              : "/sign-up"
+          }
           className="font-medium text-customOrange transition-colors hover:text-orange-400 hover:underline"
         >
           Sign up

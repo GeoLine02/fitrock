@@ -10,11 +10,17 @@ import { z } from "zod";
 import { signup } from "../services/signup";
 import { registerUserSchema } from "../validators";
 import { ClipLoader } from "react-spinners";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/providers/UserProvider";
 import { Dumbbell, Lock, Mail, Phone, User } from "lucide-react";
 
 type RegisterFormValues = z.infer<typeof registerUserSchema>;
+
+function safeRedirectTarget(value: string | null) {
+  if (!value) return "/";
+  if (!value.startsWith("/") || value.startsWith("//")) return "/";
+  return value;
+}
 
 export default function SignUpForm() {
   const {
@@ -28,6 +34,8 @@ export default function SignUpForm() {
 
   const router = useRouter();
   const { setUser } = useUser();
+  const searchParams = useSearchParams();
+  const redirectTo = safeRedirectTarget(searchParams.get("redirectTo"));
 
   const onSubmit = async (data: RegisterFormValues) => {
     try {
@@ -40,7 +48,7 @@ export default function SignUpForm() {
 
       if (res.success) {
         setUser(res.data.user);
-        router.push("/");
+        router.push(redirectTo);
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

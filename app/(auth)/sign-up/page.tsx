@@ -1,9 +1,12 @@
+import { Suspense } from "react";
 import SignUpForm from "./components/SignUpForm";
 
 export default function SignUp() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[url('/Fitrock-assets/imgs/sign-background2.png')] bg-cover bg-center bg-no-repeat">
-      <SignUpForm />
+      <Suspense fallback={null}>
+        <SignUpForm />
+      </Suspense>
     </div>
   );
 }
