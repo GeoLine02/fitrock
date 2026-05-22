@@ -1,21 +1,42 @@
+"use client";
+
 import Image from "next/image";
 import ProductImage from "@/public/Fitrock-assets/imgs/dumbbells.png";
 import Button from "./Button";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import withAddToCart, { AddToCartButtonProps } from "@/hoc/withAddToCart";
 
 interface ProductCardProps {
   id: number;
   name: string;
   price: number;
   discount: number;
+  inStock?: number;
 }
+
+function ProductCardAddButton({ onClick, disabled }: AddToCartButtonProps) {
+  return (
+    <Button
+      bgColor="black"
+      classname="mt-3 w-full text-xs sm:text-sm py-2 whitespace-nowrap"
+      onClick={onClick}
+      disabled={disabled}
+    >
+      Add to cart
+      <ShoppingCart className="h-4 w-4" />
+    </Button>
+  );
+}
+
+const AddToCartCardButton = withAddToCart(ProductCardAddButton);
 
 export default function ProductCard({
   id,
   name,
   price,
   discount,
+  inStock,
 }: ProductCardProps) {
   const hasDiscount = discount > 0;
   const discountedPrice = hasDiscount
@@ -67,14 +88,9 @@ export default function ProductCard({
         </div>
       </div>
 
-      {/* Button */}
-      <Button
-        bgColor="black"
-        classname="mt-3 w-full text-xs sm:text-sm py-2 whitespace-nowrap"
-      >
-        Add to cart
-        <ShoppingCart className="h-4 w-4" />
-      </Button>
+      <div className="mt-3">
+        <AddToCartCardButton productId={id} inStock={inStock} />
+      </div>
     </Link>
   );
 }

@@ -1,5 +1,23 @@
 import api from "@/utils/axios";
 
+export async function addToCart(
+  productId: number,
+  userId: number,
+  productQuantity: number,
+) {
+  try {
+    const res = await api.post("/cart", {
+      productId,
+      userId,
+      productQuantity,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 export async function decreaseProductQuantityService(cartItemId: number) {
   try {
     const res = await api.patch("/cart/quantity/decrease", {

@@ -5,9 +5,12 @@ import { ReactNode } from "react";
 
 export default function MainContainer({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname.startsWith("/admin");
+  const isFullBleed =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/sign-in") ||
+    pathname.startsWith("/sign-up");
 
-  if (isAdmin) {
+  if (isFullBleed) {
     return <>{children}</>;
   }
 

@@ -3,9 +3,9 @@
 import Button from "@/components/Button";
 import { Check, Minus, Plus, ShoppingBag, Truck, X } from "lucide-react";
 import { useState } from "react";
-import { addToCart } from "../services";
-import { useUser } from "@/providers/UserProvider";
-import { toast, ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
+import withAddToCart, { AddToCartButtonProps } from "@/hoc/withAddToCart";
+import { RootState } from "@/state/store";
 
 interface ProductStatsProps {
   id: number;
@@ -15,6 +15,22 @@ interface ProductStatsProps {
   inStock: number;
 }
 
+function ProductStatsAddButton({ onClick, disabled }: AddToCartButtonProps) {
+  return (
+    <Button
+      bgColor="orange"
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+    >
+      <ShoppingBag size={16} />
+      Add to Cart
+    </Button>
+  );
+}
+
+const AddToCartStatsButton = withAddToCart(ProductStatsAddButton);
+
 function ProductStats({
   id,
   label,
@@ -23,7 +39,9 @@ function ProductStats({
   inStock,
 }: ProductStatsProps) {
   const [quantity, setQuantity] = useState(1);
-  const { user } = useUser();
+  const isInCart = useSelector((state: RootState) =>
+    state.cartReducer.cart.some((i) => i.product_id === id),
+  );
 
   const increaseQuantity = () => {
     if (quantity < inStock) setQuantity((prev) => prev + 1);
@@ -31,28 +49,6 @@ function ProductStats({
 
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity((prev) => prev - 1);
-  };
-
-  const handleAddToCard = async () => {
-    try {
-      if (!user?.id) {
-        toast.warn("You are not logged in");
-        return;
-      }
-
-      const res = await addToCart(id, user.id, quantity);
-      toast.success(res.message);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
-
-      if (
-        error.response.data &&
-        error.response.data.type === "ALREADY_IN_CART"
-      ) {
-        toast.error(error.response.data.message);
-      }
-    }
   };
 
   const isOutOfStock = inStock === 0;
@@ -86,48 +82,60 @@ function ProductStats({
         <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
           Description
         </h3>
-        <p className="max-w-prose break-words text-sm leading-relaxed text-gray-700">
+        <p className="max-w-prose wrap-break-word text-sm leading-relaxed text-gray-700">
           {description}
         </p>
       </div>
 
-      <div>
-        <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Quantity
-        </h3>
-        <div className="inline-flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <button
-            onClick={decreaseQuantity}
-            disabled={quantity <= 1}
-            aria-label="Decrease quantity"
-            className="flex h-10 w-10 items-center justify-center text-neutral-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Minus size={16} />
-          </button>
-          <span className="w-12 text-center text-base font-semibold">
-            {quantity}
-          </span>
-          <button
-            onClick={increaseQuantity}
-            disabled={quantity >= inStock}
-            aria-label="Increase quantity"
-            className="flex h-10 w-10 items-center justify-center text-neutral-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Plus size={16} />
-          </button>
+      {!isInCart && (
+        <div>
+          <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+            Quantity
+          </h3>
+          <div className="inline-flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white">
+            <button
+              onClick={decreaseQuantity}
+              disabled={quantity <= 1}
+              aria-label="Decrease quantity"
+              className="flex h-10 w-10 items-center justify-center text-neutral-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Minus size={16} />
+            </button>
+            <span className="w-12 text-center text-base font-semibold">
+              {quantity}
+            </span>
+            <button
+              onClick={increaseQuantity}
+              disabled={quantity >= inStock}
+              aria-label="Increase quantity"
+              className="flex h-10 w-10 items-center justify-center text-neutral-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className="flex flex-wrap items-center gap-3 pt-2">
-        <Button
-          onClick={handleAddToCard}
-          bgColor="orange"
-          type="button"
-          disabled={isOutOfStock}
-        >
-          <ShoppingBag size={16} />
-          Add to Cart
-        </Button>
+      <div className="flex  gap-3 pt-2">
+        {isOutOfStock ? (
+          <Button
+            className="whitespace-nowrap"
+            bgColor="orange"
+            type="button"
+            disabled
+          >
+            <ShoppingBag size={16} />
+            Add to Cart
+          </Button>
+        ) : (
+          <div>
+            <AddToCartStatsButton
+              productId={id}
+              inStock={inStock}
+              quantityToAdd={quantity}
+            />
+          </div>
+        )}
         <Button bgColor="black" disabled={isOutOfStock}>
           Order Now
         </Button>
@@ -137,8 +145,6 @@ function ProductStats({
         <Truck size={14} className="text-customOrange" />
         Free shipping on orders over $100
       </div>
-
-      <ToastContainer />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PRODUCTS_PER_PAGE } from "@/app/api/_lib/validations";
 import { rateLimit } from "@/app/api/_lib/rateLimit";
+import { optionalUser } from "@/app/api/_lib/auth";
 
 type ProductSort =
   | "price_asc"
@@ -72,7 +73,9 @@ export async function GET(req: NextRequest) {
 
     const orderBy = sort ? ORDER_BY[sort] : { id: "asc" as const };
 
-    const [products, total] = await Promise.all([
+    const user = await optionalUser();
+
+    const [products, total, cart] = await Promise.all([
       prisma.product.findMany({
         where,
         skip: offset,
@@ -80,13 +83,19 @@ export async function GET(req: NextRequest) {
         orderBy,
       }),
       prisma.product.count({ where }),
+      user
+        ? prisma.cart.findMany({
+            where: { user_id: user.id },
+            include: { product: true },
+          })
+        : Promise.resolve([]),
     ]);
 
     const nextPage =
       offset + PRODUCTS_PER_PAGE < total ? page + 1 : null;
 
     return NextResponse.json(
-      { products, currentPage: page, nextPage, total },
+      { products, currentPage: page, nextPage, total, cart },
       { status: 200 },
     );
   } catch (error) {

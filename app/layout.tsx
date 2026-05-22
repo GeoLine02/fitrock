@@ -7,6 +7,8 @@ import MainContainer from "@/components/MainContainer";
 import QueryProvider from "@/providers/QueryClientProvider";
 import UserProvider from "@/providers/UserProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
+import CartSync from "@/providers/CartSync";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,9 +71,11 @@ export default function RootLayout({
             <body
               className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
+              <CartSync />
               <Header />
               <MainContainer>{children}</MainContainer>
               <Footer />
+              <ToastContainer />
             </body>
           </UserProvider>
         </QueryProvider>

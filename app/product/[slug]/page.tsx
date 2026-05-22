@@ -37,7 +37,7 @@ export default async function ProductDetails({ params }: ProductDetaislProps) {
           Products
         </Link>
         <ChevronRight size={12} />
-        <span className="line-clamp-1 max-w-[200px] text-neutral-700">
+        <span className="line-clamp-1 max-w-50 text-neutral-700">
           {product.product_name}
         </span>
       </nav>

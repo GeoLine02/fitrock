@@ -6,12 +6,17 @@ import { getAllProducts } from "../services";
 import { ActiveFilters } from "./ProductsContainer";
 import { ClipLoader } from "react-spinners";
 import { PackageX } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { saveCartItems } from "@/state/features/cartSlice";
+import { AppDispatch } from "@/state/store";
 
 interface ProductListProps {
   filters: ActiveFilters;
 }
 
 const ProductsList = ({ filters }: ProductListProps) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { data, status, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["products", filters],
@@ -29,6 +34,11 @@ const ProductsList = ({ filters }: ProductListProps) => {
       initialPageParam: 1,
       getNextPageParam: (lastPage) => lastPage.nextPage,
     });
+
+  useEffect(() => {
+    const cart = data?.pages[0]?.cart;
+    if (cart) dispatch(saveCartItems(cart));
+  }, [data?.pages, dispatch]);
 
   if (status === "pending") {
     return (
@@ -85,6 +95,7 @@ const ProductsList = ({ filters }: ProductListProps) => {
               name={product.product_name}
               price={product.product_price}
               discount={product.product_discount}
+              inStock={product.product_quantity}
             />
           ))}
         </div>

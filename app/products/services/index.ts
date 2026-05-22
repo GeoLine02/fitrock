@@ -1,3 +1,4 @@
+import { CartItemType } from "@/types/cart";
 import { ProductPreviewCard } from "@/types/products";
 import api from "@/utils/axios";
 
@@ -14,6 +15,7 @@ export interface AllProductsResult {
   currentPage: number;
   nextPage: number | null;
   total?: number;
+  cart: CartItemType[];
 }
 
 interface GetAllProductsParams {

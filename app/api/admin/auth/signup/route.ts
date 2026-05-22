@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from "@/app/api/_lib/tokens";
+import { generateAccessToken } from "@/app/api/_lib/tokens";
 import { setAuthCookies } from "@/app/api/_lib/cookies";
 import { validateBody } from "@/app/api/_lib/validate";
 import { rateLimit } from "@/app/api/_lib/rateLimit";
@@ -42,7 +39,6 @@ export async function POST(req: NextRequest) {
 
     const payload = { id: admin.id, email: admin.email };
     const accessToken = generateAccessToken(payload);
-    const refreshToken = generateRefreshToken(payload);
 
     const response = NextResponse.json(
       {
@@ -56,7 +52,7 @@ export async function POST(req: NextRequest) {
       },
       { status: 201 },
     );
-    setAuthCookies(response, { accessToken, refreshToken });
+    setAuthCookies(response, { accessToken });
     return response;
   } catch (error) {
     console.error(error);

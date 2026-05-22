@@ -2,8 +2,9 @@
 
 import Logo from "../Logo";
 import Button from "../Button";
+import UserPreview from "./UserPreview";
 
-import { Menu, Search, ShoppingCart } from "lucide-react";
+import { Menu, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import SideMenu from "../SideMenu";
@@ -30,19 +31,10 @@ export default function Header() {
 
   const pathName = usePathname();
 
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const cartCount = useSelector(
     (state: RootState) => state.cartReducer.cart.length,
   );
-
-  const handleLogout = async () => {
-    try {
-      await logOut();
-      setUser(null);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 4);
@@ -87,7 +79,7 @@ export default function Header() {
               >
                 {link.label}
                 <span
-                  className={`absolute -bottom-0.5 left-0 h-[2px] bg-customOrange transition-all duration-300 ${
+                  className={`absolute -bottom-0.5 left-0 h-0.5 bg-customOrange transition-all duration-300 ${
                     active ? "w-full" : "w-0 group-hover:w-full"
                   }`}
                 />
@@ -97,13 +89,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4 md:gap-6">
-          <button
-            aria-label="Search"
-            className="rounded-full p-1.5 text-neutral-700 transition-colors hover:bg-gray-100 hover:text-customOrange"
-          >
-            <Search size={20} />
-          </button>
-
           <Link
             href={"/cart"}
             aria-label="Cart"
@@ -117,15 +102,11 @@ export default function Header() {
             )}
           </Link>
 
-          {user ? (
-            <Button
-              onClick={handleLogout}
-              classname="hidden lg:inline-flex"
-              bgColor="black"
-            >
-              Sign Out
-            </Button>
-          ) : (
+          <div className="hidden md:block">
+            <UserPreview />
+          </div>
+
+          {!user && (
             <Link className="hidden lg:block" href={"/sign-in"}>
               <Button bgColor="black">Sign In</Button>
             </Link>

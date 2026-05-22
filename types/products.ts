@@ -3,9 +3,9 @@ export interface ProductPreviewCard {
   product_name: string;
   product_price: number;
   product_discount: number;
+  product_quantity: number;
 }
 
 export interface Product extends ProductPreviewCard {
-  product_quantity: number;
   product_description: string;
 }

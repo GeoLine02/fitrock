@@ -38,3 +38,14 @@ export async function requireUser(): Promise<AuthResult> {
     };
   }
 }
+
+export async function optionalUser(): Promise<UserJwtPayload | null> {
+  const accessToken = (await cookies()).get("accessToken")?.value;
+  if (!accessToken) return null;
+
+  try {
+    return verifyAccessToken<UserJwtPayload>(accessToken);
+  } catch {
+    return null;
+  }
+}
