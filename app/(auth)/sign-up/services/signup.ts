@@ -24,17 +24,18 @@ export const signup = async (payload: SignUpPayload) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const status = error.response?.status;
-      const message = error.response?.data?.message;
+      const data = error.response?.data;
+      const message = data?.message;
+      const fieldErrors = data?.errors as
+        | { field: string; message: string }[]
+        | undefined;
 
-      // Email already exists
-      if (status === 400) {
-        throw new Error(message || "Email already exists");
-      }
-
-      // Other backend error
       if (message) {
         throw new Error(message);
+      }
+
+      if (fieldErrors?.length) {
+        throw new Error(fieldErrors[0].message);
       }
     }
 
