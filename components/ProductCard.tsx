@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import ProductImage from "@/public/Fitrock-assets/imgs/dumbbells.png";
+import FallbackImage from "@/public/Fitrock-assets/imgs/dumbbells.png";
 import Button from "./Button";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
@@ -13,6 +13,7 @@ interface ProductCardProps {
   price: number;
   discount: number;
   inStock?: number;
+  imageUrl?: string | null;
 }
 
 function ProductCardAddButton({ onClick, disabled }: AddToCartButtonProps) {
@@ -37,6 +38,7 @@ export default function ProductCard({
   price,
   discount,
   inStock,
+  imageUrl,
 }: ProductCardProps) {
   const hasDiscount = discount > 0;
   const discountedPrice = hasDiscount
@@ -62,9 +64,10 @@ export default function ProductCard({
       {/* Image */}
       <div className="relative mb-3 w-full aspect-square overflow-hidden rounded-xl bg-gray-50">
         <Image
-          src={ProductImage}
+          src={imageUrl || FallbackImage}
           alt={name}
           fill
+          sizes="(min-width: 1280px) 16vw, (min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
           className="object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-110"
         />
       </div>

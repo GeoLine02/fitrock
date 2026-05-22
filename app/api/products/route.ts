@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { PRODUCTS_PER_PAGE } from "@/app/api/_lib/validations";
 import { rateLimit } from "@/app/api/_lib/rateLimit";
 import { optionalUser } from "@/app/api/_lib/auth";
+import { publicUrlForBlobKey } from "@/lib/productImages";
 
 type ProductSort =
   | "price_asc"
@@ -75,12 +76,15 @@ export async function GET(req: NextRequest) {
 
     const user = await optionalUser();
 
-    const [products, total, cart] = await Promise.all([
+    const [productsRaw, total, cart] = await Promise.all([
       prisma.product.findMany({
         where,
         skip: offset,
         take: PRODUCTS_PER_PAGE,
         orderBy,
+        include: {
+          images: { orderBy: { sort_order: "asc" }, take: 1 },
+        },
       }),
       prisma.product.count({ where }),
       user
@@ -90,6 +94,11 @@ export async function GET(req: NextRequest) {
           })
         : Promise.resolve([]),
     ]);
+
+    const products = productsRaw.map(({ images, ...p }) => ({
+      ...p,
+      image_url: images[0] ? publicUrlForBlobKey(images[0].blob_key) : null,
+    }));
 
     const nextPage =
       offset + PRODUCTS_PER_PAGE < total ? page + 1 : null;

@@ -96,6 +96,7 @@ const ProductsList = ({ filters }: ProductListProps) => {
               price={product.product_price}
               discount={product.product_discount}
               inStock={product.product_quantity}
+              imageUrl={product.image_url}
             />
           ))}
         </div>
