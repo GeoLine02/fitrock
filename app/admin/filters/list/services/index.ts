@@ -1,39 +1,30 @@
-import adminApi from "@/app/admin/_lib/axios";
-import { cookies } from "next/headers";
+import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/app/api/admin/_lib/auth";
+
+async function ensureAdmin() {
+  const auth = await requireAdmin();
+  if (!auth.ok) throw new Error("Unauthorized");
+}
 
 export async function getFilters(page: number, limit: number) {
-  try {
-    const cookeiStore = await cookies();
-    const accessToken = cookeiStore.get("accessToken")?.value;
+  await ensureAdmin();
 
-    const res = await adminApi.get(`/filters?page=${page}&limit=${limit}`, {
-      headers: {
-        Cookie: `accessToken=${accessToken}`,
-      },
-    });
+  const skip = (Math.max(1, page) - 1) * Math.max(1, limit);
+  const [filters, totalRows] = await Promise.all([
+    prisma.filter.findMany({
+      skip,
+      take: limit,
+      orderBy: { id: "asc" },
+    }),
+    prisma.filter.count(),
+  ]);
 
-    return res;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  return { filters, totalRows };
 }
 
 export async function getFilter(filterId: number) {
-  try {
-    const cookieStore = await cookies();
-
-    const accessToken = cookieStore.get("accessToken")?.value;
-
-    const res = await adminApi.get(`/filters/${filterId}`, {
-      headers: {
-        Cookie: `accessToken=${accessToken}`,
-      },
-    });
-
-    return res;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  await ensureAdmin();
+  const filter = await prisma.filter.findUnique({ where: { id: filterId } });
+  if (!filter) throw new Error("Filter not found");
+  return filter;
 }

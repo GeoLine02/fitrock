@@ -1,14 +1,13 @@
 import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { getProductsService } from "./services";
-import { Product } from "@/app/admin/_types/products";
+import type { Product } from "@prisma/client";
 import ProductsTable from "./components/ProductsTable";
 
 export default async function ProductsList() {
   const page = 1;
   const limit = 10;
-  const getAllProducts = await getProductsService(page, limit);
-  const allProduct = getAllProducts.data.products as Product[];
-  const totalRows = getAllProducts.data.totalRows as number;
+  const { products, totalRows } = await getProductsService(page, limit);
+  const allProduct = products;
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 90 },

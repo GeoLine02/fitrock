@@ -12,7 +12,7 @@ export default async function UpdateFilter({ params }: UpdateFilterProps) {
 
   return (
     <div>
-      <UpdateFIlterForm filterData={filterData.data} />
+      <UpdateFIlterForm filterData={filterData} />
     </div>
   );
 }

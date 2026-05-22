@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { updateProduct } from "../services/index.client";
 import { useEffect } from "react";
-import { Product } from "@/app/admin/_types/products";
+import type { Product } from "@prisma/client";
 import { ProductData } from "@/app/admin/products/create/types";
 
 interface UpdateProductFormProps {
@@ -40,11 +40,11 @@ export default function UpdateProductForm({
       reset({
         name: product.product_name,
         price: product.product_price,
-        categoryId: 1,
-        description: product.product_description,
-        discount: product.product_discount,
-        weight: product.product_weight,
-        quantity: product.product_quantity,
+        categoryId: product.filter_id ?? 1,
+        description: product.product_description ?? "",
+        discount: product.product_discount ?? 0,
+        weight: product.product_weight ?? 0,
+        quantity: product.product_quantity ?? 0,
       });
     }
   }, [product, reset]);

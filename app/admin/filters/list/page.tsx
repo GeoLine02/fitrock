@@ -6,7 +6,7 @@ export default async function FiltersList() {
   const page = 1;
   const limit = 10;
 
-  const filtersData = await getFilters(page, limit);
+  const { filters, totalRows } = await getFilters(page, limit);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 90 },
@@ -34,8 +34,8 @@ export default async function FiltersList() {
       <h1 className="text-3xl font-bold">Filters List</h1>
       <FiltersTable
         columns={columns}
-        rows={filtersData.data.filters}
-        totalRows={filtersData.data.totalRows}
+        rows={filters}
+        totalRows={totalRows}
       />
     </div>
   );

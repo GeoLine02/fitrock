@@ -1,20 +1,19 @@
-import { cookies } from "next/headers";
-
-import adminApi from "@/app/admin/_lib/axios";
+import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/app/api/admin/_lib/auth";
 
 export const getProductsService = async (page: number, limit: number) => {
-  try {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value;
-    const res = await adminApi.get(`/products?page=${page}&limit=${limit}`, {
-      headers: {
-        Cookie: `accessToken=${accessToken}`,
-      },
-    });
+  const auth = await requireAdmin();
+  if (!auth.ok) throw new Error("Unauthorized");
 
-    return res;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  const skip = (Math.max(1, page) - 1) * Math.max(1, limit);
+  const [products, totalRows] = await Promise.all([
+    prisma.product.findMany({
+      skip,
+      take: limit,
+      orderBy: { id: "asc" },
+    }),
+    prisma.product.count(),
+  ]);
+
+  return { products, totalRows };
 };
