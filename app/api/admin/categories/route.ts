@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/app/api/admin/_lib/auth";
 import { validateBody } from "@/app/api/_lib/validate";
 import {
-  productCreateSchema,
+  categoryCreateSchema,
   ADMIN_PAGE_SIZE,
 } from "@/app/api/admin/_lib/validations";
 
@@ -17,17 +18,17 @@ export async function GET(req: NextRequest) {
     const limit = Math.max(1, Number(params.get("limit")) || ADMIN_PAGE_SIZE);
     const skip = (page - 1) * limit;
 
-    const [products, totalRows] = await Promise.all([
-      prisma.product.findMany({
+    const [categories, totalRows] = await Promise.all([
+      prisma.category.findMany({
         skip,
         take: limit,
         orderBy: { id: "asc" },
       }),
-      prisma.product.count(),
+      prisma.category.count(),
     ]);
 
     return NextResponse.json(
-      { products, totalRows, currentPage: page },
+      { categories, totalRows, currentPage: page },
       { status: 200 },
     );
   } catch (error) {
@@ -45,35 +46,24 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const validation = validateBody(productCreateSchema, body);
+    const validation = validateBody(categoryCreateSchema, body);
     if (!validation.ok) return validation.response;
 
-    const {
-      name,
-      description,
-      weightFilterId,
-      categoryId,
-      weight,
-      price,
-      discount,
-      quantity,
-    } = validation.data;
-
-    const product = await prisma.product.create({
-      data: {
-        product_name: name,
-        product_description: description ?? null,
-        product_price: price,
-        product_discount: discount ?? 0,
-        product_quantity: quantity ?? 0,
-        product_weight: weight ?? null,
-        filter_id: weightFilterId ?? null,
-        category_id: categoryId ?? null,
-      },
+    const category = await prisma.category.create({
+      data: { name: validation.data.name },
     });
 
-    return NextResponse.json({ product }, { status: 201 });
+    return NextResponse.json({ category }, { status: 201 });
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return NextResponse.json(
+        { success: false, message: "Category name already exists" },
+        { status: 409 },
+      );
+    }
     console.error(error);
     return NextResponse.json(
       { success: false, message: "Internal Server Error" },

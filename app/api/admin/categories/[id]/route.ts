@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/app/api/admin/_lib/auth";
 import { validateBody } from "@/app/api/_lib/validate";
-import { productUpdateSchema } from "@/app/api/admin/_lib/validations";
+import { categoryUpdateSchema } from "@/app/api/admin/_lib/validations";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -20,20 +20,20 @@ export async function GET(_req: NextRequest, context: RouteContext) {
   const id = await parseId(context);
   if (id === null) {
     return NextResponse.json(
-      { success: false, message: "Invalid product id" },
+      { success: false, message: "Invalid category id" },
       { status: 400 },
     );
   }
 
   try {
-    const product = await prisma.product.findUnique({ where: { id } });
-    if (!product) {
+    const category = await prisma.category.findUnique({ where: { id } });
+    if (!category) {
       return NextResponse.json(
-        { success: false, message: "Product not found" },
+        { success: false, message: "Category not found" },
         { status: 404 },
       );
     }
-    return NextResponse.json(product, { status: 200 });
+    return NextResponse.json(category, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -50,48 +50,35 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
   const id = await parseId(context);
   if (id === null) {
     return NextResponse.json(
-      { success: false, message: "Invalid product id" },
+      { success: false, message: "Invalid category id" },
       { status: 400 },
     );
   }
 
   try {
     const body = await req.json();
-    const validation = validateBody(productUpdateSchema, body);
+    const validation = validateBody(categoryUpdateSchema, body);
     if (!validation.ok) return validation.response;
 
-    const data: Prisma.ProductUpdateInput = {};
-    const v = validation.data;
-    if (v.name !== undefined) data.product_name = v.name;
-    if (v.description !== undefined) data.product_description = v.description;
-    if (v.price !== undefined) data.product_price = v.price;
-    if (v.discount !== undefined) data.product_discount = v.discount;
-    if (v.quantity !== undefined) data.product_quantity = v.quantity;
-    if (v.weight !== undefined) data.product_weight = v.weight;
-    if (v.weightFilterId !== undefined) {
-      data.filter =
-        v.weightFilterId === null
-          ? { disconnect: true }
-          : { connect: { id: v.weightFilterId } };
-    }
-    if (v.categoryId !== undefined) {
-      data.category =
-        v.categoryId === null
-          ? { disconnect: true }
-          : { connect: { id: v.categoryId } };
-    }
+    const data: Prisma.CategoryUpdateInput = {};
+    if (validation.data.name !== undefined) data.name = validation.data.name;
 
-    const product = await prisma.product.update({ where: { id }, data });
-    return NextResponse.json({ product }, { status: 200 });
+    const category = await prisma.category.update({ where: { id }, data });
+    return NextResponse.json({ category }, { status: 200 });
   } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      return NextResponse.json(
-        { success: false, message: "Product not found" },
-        { status: 404 },
-      );
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return NextResponse.json(
+          { success: false, message: "Category not found" },
+          { status: 404 },
+        );
+      }
+      if (error.code === "P2002") {
+        return NextResponse.json(
+          { success: false, message: "Category name already exists" },
+          { status: 409 },
+        );
+      }
     }
     console.error(error);
     return NextResponse.json(
@@ -108,13 +95,13 @@ export async function DELETE(_req: NextRequest, context: RouteContext) {
   const id = await parseId(context);
   if (id === null) {
     return NextResponse.json(
-      { success: false, message: "Invalid product id" },
+      { success: false, message: "Invalid category id" },
       { status: 400 },
     );
   }
 
   try {
-    await prisma.product.delete({ where: { id } });
+    await prisma.category.delete({ where: { id } });
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     if (
@@ -122,7 +109,7 @@ export async function DELETE(_req: NextRequest, context: RouteContext) {
       error.code === "P2025"
     ) {
       return NextResponse.json(
-        { success: false, message: "Product not found" },
+        { success: false, message: "Category not found" },
         { status: 404 },
       );
     }

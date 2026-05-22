@@ -1,10 +1,13 @@
 export const dynamic = "force-dynamic";
 import JsonLd from "@/components/JsonLd";
 import ProductsContainer from "./components/ProductsContainer";
-import { getAllFilters } from "./services";
+import { getAllCategories, getAllFilters } from "./services";
 
 export default async function ProductsPage() {
-  const filters = await getAllFilters();
+  const [filters, categories] = await Promise.all([
+    getAllFilters(),
+    getAllCategories(),
+  ]);
   return (
     <div className="px-4 md:px-0 mt-4">
       <JsonLd
@@ -18,7 +21,7 @@ export default async function ProductsPage() {
               : process.env.NEXT_PUBLIC_URL + "/products",
         }}
       />
-      <ProductsContainer filtersData={filters} />
+      <ProductsContainer filtersData={filters} categoriesData={categories} />
     </div>
   );
 }

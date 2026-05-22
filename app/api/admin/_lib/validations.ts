@@ -20,6 +20,7 @@ export const adminSignupSchema = z.object({
 export const productCreateSchema = z.object({
   name: z.string().min(1, "Product name is required"),
   description: z.string().optional().nullable(),
+  weightFilterId: z.coerce.number().int().nullable().optional(),
   categoryId: z.coerce.number().int().nullable().optional(),
   weight: z.coerce.number().int().nonnegative().optional().nullable(),
   price: z.coerce.number().int().nonnegative("Price is required"),
@@ -34,6 +35,15 @@ export const filterCreateSchema = z.object({
 });
 
 export const filterUpdateSchema = filterCreateSchema.partial();
+
+export const categoryCreateSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Category name is required")
+    .max(80, "Category name cannot exceed 80 characters"),
+});
+
+export const categoryUpdateSchema = categoryCreateSchema.partial();
 
 export const ADMIN_PAGE_SIZE = 10;
 export const LOW_STOCK_THRESHOLD = 5;

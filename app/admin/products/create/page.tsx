@@ -6,15 +6,26 @@ export default async function AddProduct() {
   const auth = await requireAdmin();
   if (!auth.ok) throw new Error("Unauthorized");
 
-  const filters = await prisma.filter.findMany({ orderBy: { id: "asc" } });
-  const categoryOptions = filters.map((f) => ({
+  const [filters, categories] = await Promise.all([
+    prisma.filter.findMany({ orderBy: { id: "asc" } }),
+    prisma.category.findMany({ orderBy: { name: "asc" } }),
+  ]);
+
+  const weightFilterOptions = filters.map((f) => ({
     value: String(f.id),
     label: `${f.weight_amount} kilo`,
+  }));
+  const categoryOptions = categories.map((c) => ({
+    value: String(c.id),
+    label: c.name,
   }));
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <CreateProductForm categoryOptions={categoryOptions} />
+      <CreateProductForm
+        weightFilterOptions={weightFilterOptions}
+        categoryOptions={categoryOptions}
+      />
     </div>
   );
 }

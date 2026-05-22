@@ -14,7 +14,7 @@ import {
 } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 
-interface CategoryOption {
+interface SelectOption {
   value: string;
   label: string;
 }
@@ -28,7 +28,8 @@ interface ProductFormProps {
   action: "create" | "update";
   imageFiles: File[];
   onImageFilesChange: (files: File[]) => void;
-  categoryOptions: CategoryOption[];
+  weightFilterOptions: SelectOption[];
+  categoryOptions: SelectOption[];
 }
 
 export default function ProductForm({
@@ -40,6 +41,7 @@ export default function ProductForm({
   isSubmitting,
   imageFiles,
   onImageFilesChange,
+  weightFilterOptions,
   categoryOptions,
 }: ProductFormProps) {
 
@@ -87,6 +89,12 @@ export default function ProductForm({
               label="Quantity"
               placeholder="1"
               register={register("quantity")}
+            />
+
+            <FormSelect
+              label="Weight"
+              options={weightFilterOptions}
+              register={register("weightFilterId")}
             />
 
             <FormSelect

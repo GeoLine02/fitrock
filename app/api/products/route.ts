@@ -44,6 +44,9 @@ export async function GET(req: NextRequest) {
     const weightFilterId = params.get("weightFilterId")
       ? Number(params.get("weightFilterId"))
       : undefined;
+    const categoryId = params.get("categoryId")
+      ? Number(params.get("categoryId"))
+      : undefined;
     const minPrice = params.get("minPrice")
       ? Number(params.get("minPrice"))
       : undefined;
@@ -61,6 +64,7 @@ export async function GET(req: NextRequest) {
 
     const where: Prisma.ProductWhereInput = {};
     if (weightFilterId) where.filter_id = weightFilterId;
+    if (categoryId) where.category_id = categoryId;
     if (minPrice !== undefined || maxPrice !== undefined) {
       where.product_price = {};
       if (minPrice !== undefined) where.product_price.gte = minPrice;

@@ -11,14 +11,19 @@ interface UpdateProductProps {
 export default async function UpdateProduct({ params }: UpdateProductProps) {
   const { id } = await params;
 
-  const [productById, filters] = await Promise.all([
+  const [productById, filters, categories] = await Promise.all([
     getProductById(Number(id)),
     prisma.filter.findMany({ orderBy: { id: "asc" } }),
+    prisma.category.findMany({ orderBy: { name: "asc" } }),
   ]);
 
-  const categoryOptions = filters.map((f) => ({
+  const weightFilterOptions = filters.map((f) => ({
     value: String(f.id),
     label: `${f.weight_amount} kilo`,
+  }));
+  const categoryOptions = categories.map((c) => ({
+    value: String(c.id),
+    label: c.name,
   }));
 
   return (
@@ -26,6 +31,7 @@ export default async function UpdateProduct({ params }: UpdateProductProps) {
       <UpdateProductForm
         productId={Number(id)}
         product={productById}
+        weightFilterOptions={weightFilterOptions}
         categoryOptions={categoryOptions}
       />
     </div>

@@ -21,6 +21,7 @@ export interface AllProductsResult {
 interface GetAllProductsParams {
   pageParam: number;
   weightFilterId?: number;
+  categoryId?: number;
   minPrice?: number;
   maxPrice?: number;
   search?: string;
@@ -32,6 +33,7 @@ interface GetAllProductsParams {
 export async function getAllProducts({
   pageParam,
   weightFilterId,
+  categoryId,
   minPrice,
   maxPrice,
   search,
@@ -44,6 +46,8 @@ export async function getAllProducts({
 
     if (weightFilterId !== undefined)
       queryParams.append("weightFilterId", String(weightFilterId));
+    if (categoryId !== undefined)
+      queryParams.append("categoryId", String(categoryId));
     if (minPrice !== undefined)
       queryParams.append("minPrice", String(minPrice));
     if (maxPrice !== undefined)
@@ -65,6 +69,16 @@ export async function getAllProducts({
 export async function getAllFilters() {
   try {
     const res = await api.get("/filters");
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getAllCategories() {
+  try {
+    const res = await api.get("/categories");
     return res.data;
   } catch (error) {
     console.log(error);

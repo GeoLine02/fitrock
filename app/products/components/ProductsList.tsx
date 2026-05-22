@@ -24,6 +24,7 @@ const ProductsList = ({ filters }: ProductListProps) => {
         getAllProducts({
           pageParam,
           weightFilterId: filters.weightId,
+          categoryId: filters.categoryId,
           minPrice: filters.minPrice,
           maxPrice: filters.maxPrice,
           search: filters.search,

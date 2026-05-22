@@ -8,10 +8,12 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import ProductForm from "../../components/ProductForm";
 
 interface CreateProductFormProps {
+  weightFilterOptions: { value: string; label: string }[];
   categoryOptions: { value: string; label: string }[];
 }
 
 export default function CreateProductForm({
+  weightFilterOptions,
   categoryOptions,
 }: CreateProductFormProps) {
   const {
@@ -24,6 +26,7 @@ export default function CreateProductForm({
     defaultValues: {
       name: "",
       price: null,
+      weightFilterId: null,
       categoryId: null,
       description: "",
       discount: 0,
@@ -77,6 +80,7 @@ export default function CreateProductForm({
         action="create"
         imageFiles={imageFiles}
         onImageFilesChange={setImageFiles}
+        weightFilterOptions={weightFilterOptions}
         categoryOptions={categoryOptions}
       />
       <ToastContainer

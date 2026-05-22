@@ -1,6 +1,7 @@
 "use client";
 
 import { FiltersType } from "@/types/filters";
+import { CategoryType } from "@/types/categories";
 import { ActiveFilters } from "./ProductsContainer";
 import { ChangeEvent, useEffect, useState } from "react";
 import DropDown from "@/components/DropDown";
@@ -9,6 +10,7 @@ import {
   Filter as FilterIcon,
   Search,
   Tag,
+  Layers,
   X,
   PackageCheck,
 } from "lucide-react";
@@ -16,6 +18,7 @@ import { ProductSort } from "../services";
 
 interface ProductsFilterProps {
   filtersData: FiltersType[];
+  categoriesData: CategoryType[];
   filters: ActiveFilters;
   setFilters: React.Dispatch<React.SetStateAction<ActiveFilters>>;
 }
@@ -38,6 +41,7 @@ const PRICE_PRESETS: { label: string; min?: number; max?: number }[] = [
 
 const ProductsFilter = ({
   filtersData,
+  categoriesData,
   filters,
   setFilters,
 }: ProductsFilterProps) => {
@@ -91,6 +95,10 @@ const ProductsFilter = ({
 
   const currentSort = SORT_OPTIONS.find((s) => s.value === filters.sort);
   const activeWeight = filtersData.find((f) => f.id === filters.weightId);
+  const activeCategory = categoriesData.find((c) => c.id === filters.categoryId);
+
+  const setCategory = (id: number | undefined) =>
+    setFilters((p) => ({ ...p, categoryId: id }));
 
   const activeChips: { key: string; label: string; clear: () => void }[] = [];
   if (filters.search)
@@ -107,6 +115,12 @@ const ProductsFilter = ({
       key: "weight",
       label: `${activeWeight.weight_amount} kg`,
       clear: () => setFilters((p) => ({ ...p, weightId: undefined })),
+    });
+  if (activeCategory)
+    activeChips.push({
+      key: "category",
+      label: activeCategory.name,
+      clear: () => setFilters((p) => ({ ...p, categoryId: undefined })),
     });
   if (filters.minPrice !== undefined || filters.maxPrice !== undefined)
     activeChips.push({
@@ -154,6 +168,32 @@ const ProductsFilter = ({
               <X size={16} />
             </button>
           )}
+        </div>
+
+        <div className="flex items-center gap-2 md:w-56">
+          <Layers size={16} className="shrink-0 text-gray-500" />
+          <DropDown>
+            <DropDown.Trigger>
+              {activeCategory?.name ?? "All categories"}
+            </DropDown.Trigger>
+            <DropDown.Menu>
+              <DropDown.Item
+                active={filters.categoryId === undefined}
+                onClick={() => setCategory(undefined)}
+              >
+                All categories
+              </DropDown.Item>
+              {categoriesData.map((c) => (
+                <DropDown.Item
+                  key={c.id}
+                  active={filters.categoryId === c.id}
+                  onClick={() => setCategory(c.id)}
+                >
+                  {c.name}
+                </DropDown.Item>
+              ))}
+            </DropDown.Menu>
+          </DropDown>
         </div>
 
         <div className="flex items-center gap-2 md:w-64">
