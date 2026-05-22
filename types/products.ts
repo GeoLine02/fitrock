@@ -7,6 +7,12 @@ export interface ProductPreviewCard {
   image_url: string | null;
 }
 
+export interface ProductImagePreview {
+  id: number;
+  url: string;
+}
+
 export interface Product extends ProductPreviewCard {
   product_description: string;
+  images: ProductImagePreview[];
 }

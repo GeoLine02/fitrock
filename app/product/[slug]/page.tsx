@@ -43,7 +43,10 @@ export default async function ProductDetails({ params }: ProductDetaislProps) {
       </nav>
 
       <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
-        <ProductPreview />
+        <ProductPreview
+          images={product.images}
+          productName={product.product_name}
+        />
         <ProductStats
           id={product.id}
           description={product.product_description}
