@@ -21,6 +21,8 @@ interface ProductFormProps {
   reset: UseFormReset<ProductData>;
   isSubmitting: boolean;
   action: "create" | "update";
+  imageFiles: File[];
+  onImageFilesChange: (files: File[]) => void;
 }
 
 export default function ProductForm({
@@ -30,6 +32,8 @@ export default function ProductForm({
   handleSubmit,
   action,
   isSubmitting,
+  imageFiles,
+  onImageFilesChange,
 }: ProductFormProps) {
   const categoryOptions = [
     { value: "10", label: "10 kilo" },
@@ -97,7 +101,12 @@ export default function ProductForm({
               fullWidth={true}
             />
 
-            <ImageUpload multiple={true} className="lg:max-w-1/2" />
+            <ImageUpload
+              multiple={true}
+              className="lg:max-w-1/2"
+              files={imageFiles}
+              onChange={onImageFilesChange}
+            />
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:gap-3 pt-4 sm:pt-6">

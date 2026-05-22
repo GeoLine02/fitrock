@@ -4,7 +4,7 @@ import ProductForm from "@/app/admin/products/components/ProductForm";
 import { useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { updateProduct } from "../services/index.client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Product } from "@prisma/client";
 import { ProductData } from "@/app/admin/products/create/types";
 
@@ -49,6 +49,8 @@ export default function UpdateProductForm({
     }
   }, [product, reset]);
 
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+
   const onSubmit = async (data: ProductData) => {
     const res = await updateProduct(Number(productId), data);
 
@@ -67,6 +69,8 @@ export default function UpdateProductForm({
         register={register}
         reset={reset}
         action="update"
+        imageFiles={imageFiles}
+        onImageFilesChange={setImageFiles}
       />
       <ToastContainer
         position="top-right"

@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import React, { useRef, useState, useEffect } from "react";
+import { X } from "lucide-react";
 
 interface ImageUploadProps {
   label?: string;
   multiple?: boolean;
   accept?: string;
-  onChange?: (files: File[]) => void;
+  files: File[];
+  onChange: (files: File[]) => void;
   className?: string;
 }
 
@@ -15,40 +17,28 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   label = "Upload Image",
   multiple = false,
   accept = "image/*",
+  files,
   onChange,
   className = "",
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-
     const selectedFiles = Array.from(e.target.files);
-
-    let updatedFiles: File[];
-
-    if (multiple) {
-      updatedFiles = [...files, ...selectedFiles];
-    } else {
-      updatedFiles = selectedFiles;
-    }
-
-    setFiles(updatedFiles);
-
-    if (onChange) {
-      onChange(updatedFiles);
-    }
-
+    onChange(multiple ? [...files, ...selectedFiles] : selectedFiles);
     e.target.value = "";
+  };
+
+  const handleRemove = (index: number) => {
+    onChange(files.filter((_, i) => i !== index));
   };
 
   useEffect(() => {
     const objectUrls = files.map((file) => URL.createObjectURL(file));
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPreviews(objectUrls);
-
     return () => {
       objectUrls.forEach((url) => URL.revokeObjectURL(url));
     };
@@ -101,7 +91,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           {previews.map((src, index) => (
             <div
               key={index}
-              className="relative w-24 h-24 rounded-lg overflow-hidden border"
+              className="relative w-24 h-24 rounded-lg overflow-hidden border group"
             >
               <Image
                 src={src}
@@ -110,6 +100,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 className="object-cover"
                 unoptimized
               />
+              <button
+                type="button"
+                aria-label="Remove image"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemove(index);
+                }}
+                className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+              >
+                <X size={14} />
+              </button>
             </div>
           ))}
         </div>

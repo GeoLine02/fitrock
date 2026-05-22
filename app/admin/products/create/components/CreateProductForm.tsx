@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProductData } from "../types";
-import { addProductService } from "../services";
+import { addProductService, uploadProductImages } from "../services";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import ProductForm from "../../components/ProductForm";
 
@@ -25,12 +26,37 @@ export default function CreateProductForm() {
     },
   });
 
-  const onSubmit = async (data: ProductData) => {
-    const res = await addProductService(data);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
-    if (res?.status === 201) {
+  const onSubmit = async (data: ProductData) => {
+    try {
+      const res = await addProductService(data);
+      if (res?.status !== 201) {
+        toast.error("Failed to create product.");
+        return;
+      }
+
+      const productId = res.data?.product?.id as number | undefined;
+      if (productId && imageFiles.length > 0) {
+        try {
+          await uploadProductImages(productId, imageFiles);
+        } catch (err) {
+          console.error(err);
+          toast.warn(
+            "Product created, but some images failed to upload.",
+          );
+          reset();
+          setImageFiles([]);
+          return;
+        }
+      }
+
       toast.success("Product Created Successfully!");
       reset();
+      setImageFiles([]);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to create product.");
     }
   };
 
@@ -43,6 +69,8 @@ export default function CreateProductForm() {
         register={register}
         reset={reset}
         action="create"
+        imageFiles={imageFiles}
+        onImageFilesChange={setImageFiles}
       />
       <ToastContainer
         position="top-right"
