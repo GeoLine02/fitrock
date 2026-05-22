@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@/providers/UserProvider";
-import { User, LogOut, ShoppingBag } from "lucide-react";
+import { User, LogOut, ShoppingBag, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/utils/axios";
@@ -27,6 +27,11 @@ export default function UserPreview() {
     setIsOpend(false);
   };
 
+  const handleDashboard = () => {
+    router.push("/admin/dashboard");
+    setIsOpend(false);
+  };
+
   return (
     <div className="relative">
       <button
@@ -48,6 +53,15 @@ export default function UserPreview() {
             <ShoppingBag size={16} />
             <span>My Orders</span>
           </button>
+          {user.role === "ADMIN" && (
+            <button
+              onClick={handleDashboard}
+              className="w-full flex items-center gap-2 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+            >
+              <LayoutDashboard size={16} />
+              <span>Dashboard</span>
+            </button>
+          )}
           <button
             onClick={handleLogout}
             className="w-full flex items-center gap-2 px-4 py-3 hover:bg-red-50 transition-colors text-left border-t border-gray-200 text-red-600"
