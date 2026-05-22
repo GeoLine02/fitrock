@@ -1,4 +1,4 @@
-import { Product } from "@/app/admin/_types/products";
+import type { Product } from "@prisma/client";
 
 interface LowStockProps {
   lowStockProducts: Product[];
