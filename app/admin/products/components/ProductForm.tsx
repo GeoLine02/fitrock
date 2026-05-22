@@ -14,6 +14,11 @@ import {
 } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 
+interface CategoryOption {
+  value: string;
+  label: string;
+}
+
 interface ProductFormProps {
   onSubmit: (data: ProductData) => void;
   handleSubmit: UseFormHandleSubmit<ProductData, ProductData>;
@@ -23,6 +28,7 @@ interface ProductFormProps {
   action: "create" | "update";
   imageFiles: File[];
   onImageFilesChange: (files: File[]) => void;
+  categoryOptions: CategoryOption[];
 }
 
 export default function ProductForm({
@@ -34,13 +40,8 @@ export default function ProductForm({
   isSubmitting,
   imageFiles,
   onImageFilesChange,
+  categoryOptions,
 }: ProductFormProps) {
-  const categoryOptions = [
-    { value: "10", label: "10 kilo" },
-    { value: "15", label: "15 kilo" },
-    { value: "20", label: "20 kilo" },
-    { value: "30", label: "30 kilo" },
-  ];
 
   return (
     <div>

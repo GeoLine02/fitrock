@@ -7,7 +7,13 @@ import { addProductService, uploadProductImages } from "../services";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import ProductForm from "../../components/ProductForm";
 
-export default function CreateProductForm() {
+interface CreateProductFormProps {
+  categoryOptions: { value: string; label: string }[];
+}
+
+export default function CreateProductForm({
+  categoryOptions,
+}: CreateProductFormProps) {
   const {
     register,
     reset,
@@ -71,6 +77,7 @@ export default function CreateProductForm() {
         action="create"
         imageFiles={imageFiles}
         onImageFilesChange={setImageFiles}
+        categoryOptions={categoryOptions}
       />
       <ToastContainer
         position="top-right"

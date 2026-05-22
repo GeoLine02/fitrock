@@ -11,11 +11,13 @@ import { ProductData } from "@/app/admin/products/create/types";
 interface UpdateProductFormProps {
   productId: number;
   product: Product;
+  categoryOptions: { value: string; label: string }[];
 }
 
 export default function UpdateProductForm({
   productId,
   product,
+  categoryOptions,
 }: UpdateProductFormProps) {
   const {
     register,
@@ -40,7 +42,7 @@ export default function UpdateProductForm({
       reset({
         name: product.product_name,
         price: product.product_price,
-        categoryId: product.filter_id ?? 1,
+        categoryId: product.filter_id ?? null,
         description: product.product_description ?? "",
         discount: product.product_discount ?? 0,
         weight: product.product_weight ?? 0,
@@ -71,6 +73,7 @@ export default function UpdateProductForm({
         action="update"
         imageFiles={imageFiles}
         onImageFilesChange={setImageFiles}
+        categoryOptions={categoryOptions}
       />
       <ToastContainer
         position="top-right"
