@@ -11,7 +11,17 @@
       "Bash(Remove-Item *)",
       "Bash(npm run *)",
       "Bash(npm install *)",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Bash(node *)",
+      "Bash(echo \"---exit:$?---\")",
+      "Bash(git commit *)",
+      "Bash(pg_dump --version)",
+      "Bash(pg_dump \"postgresql://fitrock_db_user:pnMI4xBaQlbdlhUe5H5ad1OGhPiNhDpq@dpg-d87f1ee7r5hc73fipgng-a.oregon-postgres.render.com/fitrock_db?sslmode=require\" -f \"prod-backup-20260526.sql\")",
+      "Bash(docker --version)",
+      "Bash(echo \"---docker exit:$?---\")",
+      "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION='reset postgresql://fitrock_db_user:pnMI4xBaQlbdlhUe5H5ad1OGhPiNhDpq@dpg-d87f1ee7r5hc73fipgng-a.oregon-postgres.render.com/fitrock_db?sslmode=require this database and than seed it' npx prisma migrate reset --force)",
+      "Bash(echo \"---tsc exit:$?---\")",
+      "Bash(echo \"---eslint exit:$?---\")"
     ]
   }
 }

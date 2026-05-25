@@ -4,6 +4,7 @@ import ProductStats from "./components/ProductStats";
 import { getProductDetails } from "./services";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { notFound } from "next/navigation";
 
 interface ProductDetaislProps {
   params: Promise<{ slug: string }>;
@@ -14,7 +15,11 @@ export default async function ProductDetails({ params }: ProductDetaislProps) {
   const lastDash = slug.lastIndexOf("-");
   const _productName = lastDash === -1 ? slug : slug.slice(0, lastDash);
   const productId = lastDash === -1 ? slug : slug.slice(lastDash + 1);
-  const product = await getProductDetails(Number(productId));
+  const id = Number(productId);
+  if (!Number.isFinite(id)) notFound();
+
+  const product = await getProductDetails(id);
+  if (!product) notFound();
   return (
     <div className="px-4 py-6 lg:px-0 lg:py-8">
       <JsonLd
