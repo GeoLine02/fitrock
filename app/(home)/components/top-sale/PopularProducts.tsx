@@ -1,15 +1,13 @@
-"use client";
-
-import ProductCard from "@/components/ProductCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import { popularProducts } from "@/data/popularProducts";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getPopularProducts } from "./services";
+import PopularProductsCarousel from "./PopularProductsCarousel";
 
-export default function PopularProducts() {
+export default async function PopularProducts() {
+  const products = await getPopularProducts();
+
+  if (products.length === 0) return null;
+
   return (
     <section className="px-4 xl:px-12 mt-14">
       <div className="mb-6 flex items-end justify-between gap-3">
@@ -30,30 +28,7 @@ export default function PopularProducts() {
         </Link>
       </div>
 
-      <Swiper
-        className="conatiner !pb-2"
-        spaceBetween={14}
-        slidesPerView={"auto"}
-        navigation
-        modules={[Navigation, Autoplay]}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        loop={true}
-      >
-        {popularProducts.map((product) => (
-          <SwiperSlide className="!w-56 sm:!w-60 md:!w-64" key={product.id}>
-            <ProductCard
-              id={product.id}
-              name={product.label}
-              price={product.price}
-              discount={Number(product.discount) || 0}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <PopularProductsCarousel products={products} />
     </section>
   );
 }

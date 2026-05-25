@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import JsonLd from "@/components/JsonLd";
 import Hero from "./components/Hero";
 import PopularProducts from "./components/top-sale/PopularProducts";
@@ -9,7 +10,7 @@ export default function Home() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Fitrock",
+          name: "Tsona",
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"

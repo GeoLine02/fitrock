@@ -10,7 +10,10 @@ interface ProductDetaislProps {
 }
 
 export default async function ProductDetails({ params }: ProductDetaislProps) {
-  const [_productName, productId] = (await params).slug.split("-");
+  const slug = (await params).slug;
+  const lastDash = slug.lastIndexOf("-");
+  const _productName = lastDash === -1 ? slug : slug.slice(0, lastDash);
+  const productId = lastDash === -1 ? slug : slug.slice(lastDash + 1);
   const product = await getProductDetails(Number(productId));
   return (
     <div className="px-4 py-6 lg:px-0 lg:py-8">
@@ -18,7 +21,7 @@ export default async function ProductDetails({ params }: ProductDetaislProps) {
         data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Fitrock",
+          name: "Tsona",
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"
