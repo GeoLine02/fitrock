@@ -31,7 +31,7 @@ export default function Footer() {
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-customOrange text-white shadow-sm">
               <Dumbbell size={20} strokeWidth={2.5} />
             </span>
-            <h1 className="text-2xl font-bold tracking-tight">Fitrock</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Tsona</h1>
           </div>
           <p className="max-w-xs text-sm leading-relaxed text-gray-600">
             Premium quality dumbbells and gym equipment for fitness enthusiasts
@@ -118,7 +118,7 @@ export default function Footer() {
           <ul className="flex flex-col gap-3 text-sm text-gray-600">
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 text-customOrange" />
-              info@fitrock.com
+              info@Tsona.com
             </li>
             <li className="flex items-center gap-2">
               <Phone className="h-4 w-4 text-customOrange" />
@@ -134,7 +134,7 @@ export default function Footer() {
 
       <div className="border-t border-gray-100">
         <div className="container mx-auto flex flex-col items-center justify-between gap-2 px-6 py-4 text-xs text-gray-500 sm:flex-row">
-          <span>© {new Date().getFullYear()} Fitrock. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Tsona. All rights reserved.</span>
           <span>Built for fitness enthusiasts.</span>
         </div>
       </div>

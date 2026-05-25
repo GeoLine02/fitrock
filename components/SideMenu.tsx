@@ -66,9 +66,7 @@ export default function SideMenu({
         aria-hidden={!isSideBarOpen}
         className={classNames(
           "fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 md:hidden",
-          isSideBarOpen
-            ? "opacity-100"
-            : "pointer-events-none opacity-0",
+          isSideBarOpen ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       />
 
@@ -81,7 +79,7 @@ export default function SideMenu({
         )}
       >
         <div className="flex items-center justify-between border-b border-gray-100 p-4">
-          <span className="text-2xl font-bold tracking-tight">Fitrock</span>
+          <span className="text-2xl font-bold tracking-tight">Tsona</span>
           <button
             aria-label="Close menu"
             onClick={handleToggleSideMenu}

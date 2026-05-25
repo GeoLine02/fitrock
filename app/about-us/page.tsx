@@ -9,7 +9,7 @@ export default function AboutUs() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Fitrock",
+          name: "Tsona",
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"
@@ -22,7 +22,7 @@ export default function AboutUs() {
           <div className="relative z-10 mx-auto flex max-w-6xl items-center px-6 py-20 md:px-12 md:py-28 lg:py-36">
             <div className="max-w-3xl text-left text-white">
               <span className="inline-flex rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-wider backdrop-blur-sm">
-                About Fitrock
+                About Tsona
               </span>
               <h1 className="mt-4 text-3xl font-bold md:text-5xl lg:text-6xl">
                 About Us

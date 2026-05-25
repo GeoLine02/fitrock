@@ -47,7 +47,7 @@ export default function SignUpForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">Fitrock Admin</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Tsona Admin</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>

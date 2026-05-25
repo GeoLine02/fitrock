@@ -10,7 +10,7 @@ export default function ContactUs() {
         data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Fitrock",
+          name: "Tsona",
           url:
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"

@@ -43,7 +43,7 @@ export default function SideMenu() {
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           {(isOpen || isMobile) && (
-            <span className="font-bold text-lg">Fitrock Admin</span>
+            <span className="font-bold text-lg">Tsona Admin</span>
           )}
           <div className="flex items-center gap-2">
             {!isMobile && (

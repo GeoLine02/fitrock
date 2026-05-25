@@ -79,7 +79,7 @@ export default function SignUpForm() {
           <Dumbbell size={22} strokeWidth={2.5} />
         </span>
         <h1 className="text-2xl font-bold text-white">Create account</h1>
-        <p className="mt-1 text-sm text-gray-400">Join Fitrock today</p>
+        <p className="mt-1 text-sm text-gray-400">Join Tsona today</p>
       </div>
 
       {/* Full name */}

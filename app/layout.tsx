@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   verification: {
     google: "JTCltLgtjswXpFvkXOA2kWaqr0nab7n-buAd1RRX42Ks",
   },
-  title: "Fitrock – Durable Cement Dumbbells & Workout Equipment",
+  title: "Tsona – Durable Cement Dumbbells & Workout Equipment",
   description:
     "High-quality cement dumbbells and durable workout equipment at affordable prices. Built to last, budget-friendly, and backed by guarantee for home and professional fitness training.",
   keywords: [
@@ -40,17 +40,17 @@ export const metadata: Metadata = {
   ],
 
   openGraph: {
-    title: "Fitrock – Durable Cement Dumbbells",
+    title: "Tsona – Durable Cement Dumbbells",
     description:
       "Affordable, durable cement dumbbells and workout equipment designed for long-lasting performance. Guaranteed quality for every workout.",
     url: "https://yourdomain.com",
-    siteName: "Fitrock",
+    siteName: "Tsona",
     images: [
       {
         url: "https://yourdomain.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Fitrock Cement Dumbbells",
+        alt: "Tsona Cement Dumbbells",
       },
     ],
     locale: "en_US",

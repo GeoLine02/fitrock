@@ -10,7 +10,7 @@ const DETAILS = [
   {
     icon: Mail,
     label: "Email",
-    value: "fitrock@gmail.com",
+    value: "Tsona@gmail.com",
   },
   {
     icon: MapPin,
@@ -29,7 +29,9 @@ export default function OurDetals() {
     <div className="h-full w-full">
       <div className="flex h-full w-full flex-col gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
         <div>
-          <h2 className="text-xl font-semibold text-neutral-900">Our Details</h2>
+          <h2 className="text-xl font-semibold text-neutral-900">
+            Our Details
+          </h2>
           <p className="text-sm text-gray-500">Reach us through any channel.</p>
         </div>
 

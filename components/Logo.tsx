@@ -8,7 +8,7 @@ export default function Logo() {
         <Dumbbell size={20} strokeWidth={2.5} />
       </span>
       <span className="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 transition-colors group-hover:text-customOrange">
-        Fitrock
+        Tsona
       </span>
     </div>
   );

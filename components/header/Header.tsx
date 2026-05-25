@@ -62,7 +62,7 @@ export default function Header() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 py-3 lg:px-12 lg:py-4">
-        <Link href={"/"} aria-label="Fitrock home">
+        <Link href={"/"} aria-label="Tsona home">
           <Logo />
         </Link>
 
